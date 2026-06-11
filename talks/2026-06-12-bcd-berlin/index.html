@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tool Overload &amp; Setup Trap, #BCD AI Deep Dive, Berlin 12. Juni 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --text: #09090b;
+    --muted: #71717a;
+    --faint: #a1a1aa;
+    --accent: #2563eb;
+    --accent-deep: #1d4ed8;
+    --accent-soft: #eff6ff;
+    --border: #f1f5f9;
+    --border-strong: #e2e8f0;
+    --code-bg: #f4f4f5;
+    --red: #dc2626;
+    --green: #16a34a;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%; width: 100%; background: var(--bg); color: var(--text);
+    font-family: var(--sans); -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+
+  .deck { width: 100vw; height: 100vh; overflow: hidden; position: relative; }
+  .slide {
+    width: 100vw; height: 100vh; position: absolute; top: 0; left: 0;
+    display: none; padding: 11vh 11vw;
+    flex-direction: column; justify-content: center;
+    background: var(--bg);
+  }
+  .slide.active { display: flex; }
+  .slide.dark { background: #0b1120; color: #f8fafc; }
+
+  .label {
+    position: absolute; top: 6vh; left: 11vw;
+    font-size: 0.68rem; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted);
+    display: flex; align-items: center; gap: 0.7rem;
+  }
+  .label::before { content: ''; width: 1.25rem; height: 1px; background: var(--accent); }
+  .slide.dark .label { color: #94a3b8; }
+
+  .page-num {
+    position: absolute; bottom: 5vh; right: 11vw;
+    font-size: 0.68rem; font-weight: 400; color: var(--faint);
+    letter-spacing: 0.1em; font-variant-numeric: tabular-nums;
+  }
+  .brand {
+    position: absolute; bottom: 5vh; left: 11vw;
+    font-size: 0.68rem; font-weight: 400; color: var(--faint);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .slide.dark .page-num, .slide.dark .brand { color: #64748b; }
+
+  /* COVER */
+  .cover-eyebrow {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 2.5rem;
+  }
+  h1.cover-title {
+    font-weight: 700;
+    font-size: clamp(2.8rem, 6.5vw, 6rem); line-height: 1.02;
+    letter-spacing: -0.045em; color: var(--text);
+    margin-bottom: 2.5rem; max-width: 22ch;
+  }
+  h1.cover-title .accent { color: var(--accent); }
+  .cover-sub {
+    font-size: clamp(1.05rem, 1.5vw, 1.4rem); font-weight: 400;
+    color: var(--muted); max-width: 58ch; line-height: 1.5;
+    margin-bottom: 3.5rem;
+  }
+  .cover-meta {
+    font-size: 0.85rem; font-weight: 400; color: var(--text);
+    letter-spacing: 0.01em; line-height: 1.7;
+  }
+  .cover-meta .who { font-weight: 600; display: block; }
+  .cover-meta .when { color: var(--muted); }
+
+  h2.title {
+    font-weight: 600;
+    font-size: clamp(2.5rem, 4.5vw, 4rem); line-height: 1.05;
+    letter-spacing: -0.035em; color: var(--text);
+    margin-bottom: 3.5rem; max-width: 24ch;
+  }
+  h2.title .accent { color: var(--accent); font-weight: 700; }
+  .slide.dark h2.title { color: #f8fafc; }
+
+  /* STAT HERO (Setup Trap) */
+  .stathero { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; margin-bottom: 2.5rem; }
+  .stat-cell { display: flex; flex-direction: column; gap: 0.4rem; padding-top: 1.1rem; border-top: 2px solid var(--accent); }
+  .stat-cell .n { font-weight: 700; font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1; color: var(--accent); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+  .stat-cell .lbl { font-weight: 600; font-size: 1.05rem; color: var(--text); letter-spacing: -0.005em; margin-top: 0.6rem; }
+  .stat-cell .src { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; margin-top: 0.25rem; }
+  .stathero-foot { font-size: 0.95rem; font-weight: 400; color: var(--muted); line-height: 1.55; max-width: 80ch; padding-top: 1.5rem; border-top: 1px solid var(--border); font-style: italic; }
+  .stathero-foot strong { color: var(--text); font-style: normal; font-weight: 600; }
+
+  /* SIX HATS GRID */
+  .hats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem 2.5rem; margin-bottom: 2rem; }
+  .hat { display: flex; flex-direction: column; gap: 0.3rem; padding-top: 1rem; border-top: 2px solid var(--accent); }
+  .hat .htag { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .hat .hname { font-weight: 700; font-size: 1.2rem; color: var(--text); letter-spacing: -0.015em; line-height: 1.2; margin-top: 0.35rem; }
+  .hat .hdesc { font-weight: 400; font-size: 0.82rem; color: var(--muted); line-height: 1.5; margin-top: 0.25rem; }
+  .hats-foot { font-size: 1.05rem; font-weight: 500; color: var(--text); line-height: 1.55; max-width: 80ch; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+  .hats-foot .accent { color: var(--accent); font-weight: 700; }
+
+  /* TWO-COL PANELS (Before/After, Tool Overload, Scale) */
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+  .col { display: flex; flex-direction: column; gap: 1rem; }
+  .col .tag { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+  .col.warn .tag { color: var(--red); }
+  .col .name { font-weight: 600; font-size: clamp(1.4rem, 2vw, 1.85rem); color: var(--text); letter-spacing: -0.025em; margin-bottom: 0.5rem; }
+  .col-line { display: grid; grid-template-columns: 0.55rem 1fr; gap: 0.85rem; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px solid var(--border); }
+  .col-line:last-child { border-bottom: none; }
+  .col-line::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: 0.55rem; }
+  .col.warn .col-line::before { background: var(--red); }
+  .col-line .l-head { font-weight: 600; font-size: 0.95rem; color: var(--text); letter-spacing: -0.005em; line-height: 1.35; }
+  .col-line .l-sub { font-weight: 400; font-size: 0.78rem; color: var(--muted); line-height: 1.45; margin-top: 0.15rem; display: block; }
+
+  /* ARCH STACK */
+  .archstack { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .layer { display: grid; grid-template-columns: 0.35rem 9rem 1fr; gap: 1.5rem; align-items: center; padding: 1.1rem 0; border-bottom: 1px solid var(--border); }
+  .layer:first-child { border-top: 1px solid var(--border); }
+  .layer-bar { background: var(--accent); height: 2.4rem; border-radius: 2px; }
+  .layer-tag { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text); }
+  .layer-desc { font-weight: 400; font-size: 0.95rem; color: var(--muted); line-height: 1.5; }
+  .layer-desc strong { color: var(--text); font-weight: 600; }
+  .layer.lead .layer-bar { background: var(--accent); height: 3rem; }
+  .layer.lead .layer-tag { color: var(--accent); }
+  .archstack-foot { font-size: 0.85rem; font-weight: 400; color: var(--muted); line-height: 1.55; font-style: italic; }
+  .archstack-foot strong { color: var(--accent); font-style: normal; font-weight: 600; }
+
+  /* WORKFLOWS / DEMO LIST */
+  .wfs { display: flex; flex-direction: column; }
+  .wf { display: grid; grid-template-columns: 4rem 1fr 7rem; gap: 2rem; align-items: baseline; padding: 1.3rem 0; border-bottom: 1px solid var(--border); }
+  .wf:first-child { border-top: 1px solid var(--border); }
+  .wf .wn { font-weight: 700; font-size: 1.75rem; line-height: 1; color: var(--accent); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .wf .wb { display: flex; flex-direction: column; gap: 0.35rem; }
+  .wf .wt { font-weight: 600; font-size: 1.2rem; color: var(--text); letter-spacing: -0.01em; }
+  .wf .wd { font-weight: 400; font-size: 0.88rem; color: var(--muted); line-height: 1.5; max-width: 75ch; }
+  .wf .wd strong { color: var(--text); font-weight: 600; }
+  .wf .when { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); text-align: right; }
+  .slide.dark .wf { border-color: rgba(148,163,184,0.18); }
+  .slide.dark .wf:first-child { border-top-color: rgba(148,163,184,0.18); }
+  .slide.dark .wf .wt { color: #f8fafc; }
+  .slide.dark .wf .wd { color: #94a3b8; }
+  .slide.dark .wf .wd strong { color: #e2e8f0; }
+
+  /* LIVE slide */
+  .live-pill { display: inline-block; padding: 0.35rem 0.95rem; background: var(--accent); color: #fff; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; border-radius: 999px; margin-bottom: 1.75rem; align-self: flex-start; }
+  .live-h { font-weight: 700; font-size: clamp(2.8rem, 6vw, 5.5rem); line-height: 1.0; letter-spacing: -0.045em; color: #f8fafc; margin-bottom: 2.75rem; }
+  .live-h .accent { color: #60a5fa; }
+  .live-foot { margin-top: 2rem; font-size: 0.82rem; color: #64748b; font-style: italic; }
+  .live-foot strong { color: #94a3b8; font-style: normal; font-weight: 600; }
+
+  /* BIG NUMBER */
+  .bignum-hero { display: flex; flex-direction: column; gap: 1.5rem; align-items: flex-start; }
+  .bignum-n { font-weight: 800; font-size: clamp(6rem, 14vw, 14rem); line-height: 0.85; letter-spacing: -0.055em; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .bignum-eq { font-size: clamp(1.4rem, 2.4vw, 2.1rem); font-weight: 600; color: var(--text); line-height: 1.3; max-width: 40ch; letter-spacing: -0.02em; }
+  .bignum-eq .accent { color: var(--accent); font-weight: 700; }
+  .bignum-wins { margin-top: 2rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; padding-top: 1.75rem; border-top: 1px solid var(--border-strong); }
+  .bw { display: flex; flex-direction: column; gap: 0.4rem; }
+  .bw .h { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+  .bw .t { font-weight: 600; font-size: 1rem; color: var(--text); letter-spacing: -0.005em; }
+  .bw .d { font-size: 0.82rem; font-weight: 400; color: var(--muted); line-height: 1.5; }
+
+  /* TIME TABLE */
+  .time-table { width: 100%; border-collapse: collapse; }
+  .time-table th { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--text); padding: 0.5rem 0.75rem; text-align: left; }
+  .time-table th.right { text-align: right; }
+  .time-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--border-strong); font-size: 0.78rem; vertical-align: top; line-height: 1.35; }
+  .time-table .task { font-weight: 700; color: var(--text); }
+  .time-table .task small { display: block; color: var(--muted); font-weight: 400; font-size: 0.7rem; margin-top: 0.15rem; }
+  .time-table .freq { color: var(--muted); font-size: 0.72rem; white-space: nowrap; }
+  .time-table .without { color: var(--muted); font-size: 0.72rem; line-height: 1.4; }
+  .time-table .without .strike { text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 1.5px; }
+  .time-table .with { color: var(--text); font-size: 0.74rem; line-height: 1.4; }
+  .time-table .with strong { font-weight: 600; color: var(--accent); }
+  .time-table .saved { font-weight: 700; color: var(--accent); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .time-table tr.totals td { border-top: 2px solid var(--text); border-bottom: none; padding-top: 0.7rem; font-weight: 700; font-size: 0.88rem; }
+  .time-table tr.totals .saved { font-size: 1.05rem; color: var(--accent); }
+  .time-foot { margin-top: 1rem; padding: 0.85rem 1.1rem; background: var(--accent-soft); border-left: 3px solid var(--accent); font-size: 0.82rem; line-height: 1.5; color: var(--text); border-radius: 0 4px 4px 0; }
+  .time-foot strong { color: var(--accent); font-weight: 700; }
+
+  /* RULES / TRAPS / STEPS */
+  .rules { display: flex; flex-direction: column; margin-bottom: 1rem; }
+  .rule { display: grid; grid-template-columns: 4rem 1fr; gap: 2rem; align-items: baseline; padding: 1.25rem 0; border-bottom: 1px solid var(--border); }
+  .rule:first-child { border-top: 1px solid var(--border); }
+  .rule .rn { font-weight: 700; font-size: 1.5rem; line-height: 1; color: var(--accent); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .rule .rb { display: flex; flex-direction: column; gap: 0.3rem; }
+  .rule .rh { font-weight: 600; font-size: 1.1rem; color: var(--text); letter-spacing: -0.01em; }
+  .rule .rd { font-weight: 400; font-size: 0.88rem; color: var(--muted); line-height: 1.5; max-width: 80ch; }
+  .rule .rd strong { color: var(--text); font-weight: 600; }
+
+  /* CLOSING */
+  .close-h { font-weight: 600; font-size: clamp(2.75rem, 5.5vw, 5rem); line-height: 1.05; letter-spacing: -0.045em; margin-bottom: 0.75rem; }
+  .close-h .l1 { color: var(--text); display: block; }
+  .close-h .l2 { color: var(--accent); display: block; font-weight: 700; }
+  .close-sub { font-size: clamp(1rem, 1.4vw, 1.25rem); font-weight: 400; color: var(--muted); margin-bottom: 3rem; letter-spacing: 0.005em; max-width: 62ch; line-height: 1.5; }
+  .close-prompts-h { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+  .close-prompts { display: flex; flex-direction: column; margin-bottom: 3rem; }
+  .close-prompt { padding: 0.85rem 0; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 2.6rem 1fr; gap: 1rem; align-items: baseline; }
+  .close-prompt:first-child { border-top: 1px solid var(--border); }
+  .close-prompt .qn { font-weight: 700; font-size: 0.85rem; color: var(--accent); letter-spacing: 0.08em; }
+  .close-prompt .qt { font-weight: 500; font-size: 1rem; color: var(--text); letter-spacing: -0.005em; line-height: 1.45; }
+  .close-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); margin-top: auto; }
+  .close-bottom .lbl { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+  .close-bottom .v { font-weight: 600; font-size: 1.05rem; color: var(--text); letter-spacing: -0.005em; }
+  .close-bottom .v.acc { color: var(--accent); font-weight: 700; }
+  .close-bottom .v a { color: inherit; text-decoration: none; }
+  .close-bottom .v a:hover { text-decoration: underline; }
+  .close-bottom .right { text-align: right; }
+  .close-link { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.2rem; background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; margin-bottom: 1.75rem; }
+  .close-link .ll { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+  .close-link a { font-family: var(--mono); font-size: 0.92rem; font-weight: 500; color: var(--accent-deep); text-decoration: none; word-break: break-all; }
+  .close-link a:hover { text-decoration: underline; }
+
+  .nav-hint { position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%); font-size: 0.65rem; color: var(--faint); opacity: 0.5; pointer-events: none; letter-spacing: 0.06em; }
+  .nav-hint.hidden { opacity: 0; transition: opacity 0.5s; }
+
+  @media print {
+    @page { size: 13.3in 7.5in; margin: 0; }
+    .deck { height: auto; }
+    .slide { display: flex !important; height: 7.5in; width: 13.3in; page-break-after: always; }
+    .nav-hint { display: none; }
+  }
+
+  @media (max-width: 900px) {
+    .slide { padding: 7vh 7vw; }
+    .label { top: 4vh; left: 7vw; }
+    .page-num, .brand { bottom: 3vh; }
+    .page-num { right: 7vw; }
+    .brand { left: 7vw; }
+    .twocol { grid-template-columns: 1fr; gap: 1.5rem; }
+    .stathero, .hats { grid-template-columns: 1fr; gap: 1.5rem; }
+    .bignum-wins { grid-template-columns: 1fr; }
+    .layer { grid-template-columns: 0.3rem 1fr; }
+    .layer-tag { grid-column: 2; }
+    .layer-desc { grid-column: 2; }
+    .wf { grid-template-columns: 3rem 1fr; }
+    .wf .when { grid-column: 2; text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 01 COVER -->
+  <section class="slide active" id="s1">
+    <div class="cover-eyebrow">Erler Ventures &middot; #BCD &middot; AI Deep Dive &middot; 12. Juni 2026</div>
+    <h1 class="cover-title">Tool Overload.<br><span class="accent">Setup Trap.</span></h1>
+    <p class="cover-sub">Wie ein Operator sechs Spuren gleichzeitig f&auml;hrt, ohne Team. Die einfachen Workflows, die das tragen. Und ein Blick live auf den Bildschirm.</p>
+    <p class="cover-meta"><span class="who">Christoph Erler &middot; Founder, Erler Ventures</span><span class="when">11:30 Uhr &middot; ~20 Minuten &middot; mit Show &amp; Tell</span></p>
+    <div class="brand">#BCD &middot; Erler Ventures</div>
+    <div class="page-num">01 / 13</div>
+  </section>
+
+  <!-- 02 SETUP TRAP -->
+  <section class="slide" id="s2">
+    <div class="label">Die Setup-Falle</div>
+    <h2 class="title">95% der AI-Piloten scheitern.<br><span class="accent">Die 5% kauften nicht mehr Tools.</span></h2>
+    <div class="stathero">
+      <div class="stat-cell">
+        <div class="n">95<span style="font-size: 0.5em;">%</span></div>
+        <div class="lbl">der AI-Piloten haben negativen ROI</div>
+        <div class="src">MIT 2025</div>
+      </div>
+      <div class="stat-cell">
+        <div class="n">50<span style="font-size: 0.5em;">%</span></div>
+        <div class="lbl">der Unternehmer sagen &bdquo;zu viele Tools&ldquo;</div>
+        <div class="src">EO-Umfrage &middot; 122 Stimmen</div>
+      </div>
+      <div class="stat-cell">
+        <div class="n">7&#8260;10</div>
+        <div class="lbl">scheitern am Mindset, nicht an der Technik</div>
+        <div class="src">Chaleat</div>
+      </div>
+    </div>
+    <div class="stathero-foot">Die meisten sperren sich wochenlang ein, um das perfekte Setup zu finden. <strong>Der Gewinn ist nicht der Stack. Es ist der erste Workflow, der wirklich l&auml;uft.</strong></div>
+    <div class="brand">#BCD &middot; Erler Ventures</div>
+    <div class="page-num">02 / 13</div>
+  </section>
+
+  <!-- 03 TOOL OVERLOAD -->
+  <section class="slide" id="s3">
+    <div class="label">Tool Overload</div>
+    <h2 class="title">Noch ein Tool macht es schlimmer,<br><span class="accent">nicht besser.</span></h2>
+    <div class="twocol">
+      <div class="col warn">
+        <div class="tag">Der Reflex</div>
+        <div class="name">Noch ein Tool</div>
+        <div class="col-line"><div><div class="l-head">Jedes neue Tool ist ein neuer Context-Switch</div><span class="l-sub">ein Fenster mehr, in dem ich nachschauen muss</span></div></div>
+        <div class="col-line"><div><div class="l-head">Noch ein Abo, noch ein Login</div><span class="l-sub">14 Tools, 14 Daten-Inseln</span></div></div>
+        <div class="col-line"><div><div class="l-head">Wochen Konfiguration vorab</div><span class="l-sub">und nichts davon ist je benutzt worden</span></div></div>
+        <div class="col-line"><div><div class="l-head">Die Daten reden nicht miteinander</div><span class="l-sub">der Kontext bleibt zerstreut</span></div></div>
+      </div>
+      <div class="col">
+        <div class="tag">Der Fix</div>
+        <div class="name">Ein Operator, ein Brain</div>
+        <div class="col-line"><div><div class="l-head">Nicht 12 Tools, ein Kopf der sie bedient</div><span class="l-sub">eine T&uuml;r, sie w&auml;hlt selbst das Richtige</span></div></div>
+        <div class="col-line"><div><div class="l-head">Die Tools bleiben, wo sie sind</div><span class="l-sub">Mail, Kalender, Drive, nichts Neues zu lernen</span></div></div>
+        <div class="col-line"><div><div class="l-head">Der Workflow ist der Wert</div><span class="l-sub">nicht der Stack, nicht das Abo</span></div></div>
+        <div class="col-line"><div><div class="l-head">Ein Ged&auml;chtnis, ein Ort</div><span class="l-sub">alles auffindbar, nichts f&auml;llt raus</span></div></div>
+      </div>
+    </div>
+    <div class="brand">#BCD &middot; Erler Ventures</div>
+    <div class="page-num">03 / 13</div>
+  </section>
+
+  <!-- 04 SIX LANES -->
+  <section class="slide" id="s4">
+    <div class="label">Was bei mir auf dem Tisch liegt, an einem normalen Tag</div>
+    <h2 class="title">Ein Operator. <span class="accent">Sechs Spuren.</span> Kein Team.</h2>
+    <div class="hats">
+      <div class="hat">
+        <div class="htag">Spur 01</div>
+        <div class="hname">Beratung</div>
+        <div class="hdesc">Advisory f&uuml;r Gr&uuml;nder und PE-Operator. Der Hauptjob.</div>
+      </div>
+      <div class="hat">
+        <div class="htag">Spur 02</div>
+        <div class="hname">Ventures</div>
+        <div class="hdesc">Ein kleines Portfolio fr&uuml;her Firmen, die ich mit aufbaue.</div>
+      </div>
+      <div class="hat">
+        <div class="htag">Spur 03</div>
+        <div class="hname">Immobilien</div>
+        <div class="hdesc">Objekte in DE und AT. Pricing, Buchungen, Betrieb.</div>
+      </div>
+      <div class="hat">
+        <div class="htag">Spur 04</div>
+        <div class="hname">Pilotenausbildung</div>
+        <div class="hdesc">Privatpilotenlizenz. Theorie, Pr&uuml;fungen, Flugstunden.</div>
+      </div>
+      <div class="hat">
+        <div class="htag">Spur 05</div>
+        <div class="hname">Rechtsf&auml;lle</div>
+        <div class="hdesc">Ein paar laufende Verfahren. Dokumente, Fristen, Anw&auml;lte.</div>
+      </div>
+      <div class="hat">
+        <div class="htag">Spur 06</div>
+        <div class="hname">Privat &amp; Hochzeit</div>
+        <div class="hdesc">Wir heiraten dieses Jahr. Dienstleister, Budget, Entscheidungen.</div>
+      </div>
+    </div>
+    <div class="hats-foot">Dasselbe Hirn f&auml;hrt alle sechs. <span class="accent">Kein Team. Keine Assistenten.</span> Genau dieses Setup schauen wir uns an.</div>
+    <div class="brand">#BCD &middot; Erler Ventures</div>
+    <div class="page-num">04 / 13</div>
+  </section>
+
+  <!-- 05 BEFORE vs AFTER -->
+  <section class="slide" id="s5">
+    <div class="label">Tag f&uuml;r Tag, vorher und nachher</div>
+    <h2 class="title">Gleicher Operator. Gleicher Kalender.<br><span class="accent">Anderes Betriebssystem.</span></h2>
+    <div class="twocol">
+      <div class="col warn">
+        <div class="tag">Vorher</div>
+        <div class="name">Das alte Setup</div>
+        <div class="col-line"><div><div class="l-head">80 Mails bis 10 Uhr</div><span class="l-sub">jede einzelne ein Context-Switch</span></div></div>
+        <div class="col-line"><div><div class="l-head">&bdquo;Was hatte ich entschieden?&ldquo;</div><span class="l-sub">Dinge fallen zwischen Calls und Wochen raus</span></div></div>
+        <div class="col-line"><div><div class="l-head">Entw&uuml;rfe ziehen sich &uuml;ber Tage</div><span class="l-sub">Polier-Schleife, dann nie gesendet</span></div></div>
+        <div class="col-line"><div><div class="l-head">Meetings ohne Vorbereitung</div><span class="l-sub">oder 45 Min Prep f&uuml;r einen 30-Min-Call</span></div></div>
+        <div class="col-line"><div><div class="l-head">Ich wiederhole mich</div><span class="l-sub">bei jedem Kontakt, jede Woche</span></div></div>
+      </div>
+      <div class="col">
+        <div class="tag">Nachher</div>
+        <div class="name">Der Digital Twin</div>
+        <div class="col-line"><div><div class="l-head">Eine Morgenseite</div><span class="l-sub">Inbox, Kalender, Priorit&auml;ten in 30 Sekunden</span></div></div>
+        <div class="col-line"><div><div class="l-head">Briefings auf Zuruf</div><span class="l-sub">die Entscheidungen der letzten Woche, sichtbar</span></div></div>
+        <div class="col-line"><div><div class="l-head">Zwei-Minuten-Entw&uuml;rfe</div><span class="l-sub">gesprochene Idee, fertig zum Senden</span></div></div>
+        <div class="col-line"><div><div class="l-head">Meeting-Prep automatisch</div><span class="l-sub">Mail, Drive, Kalender, ein Klick</span></div></div>
+        <div class="col-line"><div><div class="l-head">Updates fertig, bevor ich frage</div><span class="l-sub">die richtige Nachricht an die richtige Person</span></div></div>
+      </div>
+    </div>
+    <div class="brand">#BCD &middot; Erler Ventures</div>
+    <div class="page-num">05 / 13</div>
+  </section>
+
+  <!-- 06 ARCHITECTURE -->
+  <section class="slide" id="s6">
+    <div class="label">Wie der Twin gebaut ist</div>
+    <h2 class="title">Memory. Tools. Workflows. Skills.<br><span class="accent">Eine T&uuml;r.</span></h2>
+    <div class="archstack">
+      <div class="layer lead">
+        <div class="layer-bar"></div>
+        <div class="layer-tag">T&uuml;r</div>
+        <div class="layer-desc"><strong>Ein Chat.</strong> Er w&auml;hlt das richtige Playbook und ruft die richtigen Tools f&uuml;r die Frage, die du stellst.</div>
+      </div>
+      <div class="layer">
+        <div class="layer-bar"></div>
+        <div class="layer-tag">Skills</div>
+        <div class="layer-desc"><strong>Mini-Playbooks, eins pro Spur.</strong> Immobilien-Pricing, Kundenbriefe, Hochzeit, Rechtsf&auml;lle. Jedes ist ein Absatz Klartext.</div>
+      </div>
+      <div class="layer">
+        <div class="layer-bar"></div>
+        <div class="layer-tag">Workflows</div>
+        <div class="layer-desc">Die wiederkehrenden Rituale. <strong>Morning Brief. Meeting-Prep. Entw&uuml;rfe. Freitags-Review.</strong></div>
+      </div>
+      <div class="layer">
+        <div class="layer-bar"></div>
+        <div class="layer-tag">Tools</div>
+        <div class="layer-desc"><strong>Was du eh t&auml;glich nutzt.</strong> Mail, Kalender, Drive, Notizen, Kontakte. Nichts Neues zu installieren.</div>
+      </div>
+      <div class="layer">
+        <div class="layer-bar"></div>
+        <div class="layer-tag">Memory</div>
+        <div class="layer-desc">Nichts f&auml;llt raus. <strong>Entscheidungen, Notizen, Kontext.</strong> Durchsuchbar, f&uuml;r immer.</div>
+      </div>
+    </div>
+    <div class="archstack-foot">Alles liegt in einfachen Dateien, auf deiner eigenen Cloud. <strong>Deine Daten bleiben deine. Kein Lock-in.</strong></div>
+    <div class="brand">#BCD &middot; Erler Ventures</div>
+    <div class="page-num">06 / 13</div>
+  </section>
+
+  <!-- 07 SCALE TO COMPANY BRAIN -->
+  <section class="slide" id="s7">
+    <div class="label">Und das skaliert</div>
+    <h2 class="title">Von einem Kopf<br><span class="accent">zu einem ganzen Unternehmen.</span></h2>
+    <div class="twocol">
+      <div class="col">
+        <div class="tag">Solo</div>
+        <div class="name">Der Operator-Twin</div>
+        <div class="col-line"><div><div class="l-head">Ein Kopf, sechs Spuren</div><span class="l-sub">ein Ged&auml;chtnis f&uuml;r alles</span></div></div>
+        <div class="col-line"><div><div class="l-head">Entscheidungen an einem Ort</div><span class="l-sub">nichts f&auml;llt zwischen den Spuren raus</span></div></div>
+        <div class="col-line"><div><div class="l-head">Das, was ich euch gleich zeige</div><span class="l-sub">live am Bildschirm</span></div></div>
+      </div>
+      <div class="col">
+        <div class="tag">Team</div>
+        <div class="name">Das Company Brain</div>
+        <div class="col-line"><div><div class="l-head">Mehrere Rollen, ein gemeinsames Hirn</div><span class="l-sub">jeder schreibt rein, jeder liest dasselbe</span></div></div>
+        <div class="col-line"><div><div class="l-head">Keine neun Daten-Inseln</div><span class="l-sub">Vertrieb, Finanzen, Ops auf einer Wahrheit</span></div></div>
+        <div class="col-line"><div><div class="l-head">Gleiche Architektur, eine Ebene h&ouml;her</div><span class="l-sub">aus dem Twin wird das Betriebssystem der Firma</span></div></div>
+      </div>
+    </div>
+    <div class="brand">#BCD &middot; Erler Ventures</div>
+    <div class="page-num">07 / 13</div>
+  </section>
+
+  <!-- 08 SHOW & TELL (LIVE) -->
+  <section class="slide dark" id="s8">
+    <div class="label">Jetzt am Bildschirm</div>
+    <div class="live-pill">Live</div>
+    <div class="live-h">Show &amp; Tell.</div>
+    <div class="wfs">
+      <div class="wf">
+        <div class="wn">01</div>
+        <div class="wb">
+          <div class="wt">Morning Brief</div>
+          <div class="wd">Ein Tippen, mein ganzer Tag auf einer Seite: <strong>Inbox, Kalender, die drei Dinge, die ich heute nicht verpassen darf.</strong></div>
+        </div>
+        <div class="when">live</div>
+      </div>
+      <div class="wf">
+        <div class="wn">02</div>
+        <div class="wb">
+          <div class="wt">Meeting-Prep</div>
+          <div class="wd">Voller Kontext zu einer Person, <strong>bevor der Call startet:</strong> wer, letzter Kontakt, offene Threads, in einem Brief.</div>
+        </div>
+        <div class="when">live</div>
+      </div>
+    </div>
+    <div class="live-foot"><strong>Fallback:</strong> Falls die Technik streikt, liegen Screenshots in den Slides.</div>
+    <div class="brand">#BCD &middot; Erler Ventures</div>
+    <div class="page-num">08 / 13</div>
+  </section>
+
+  <!-- 09 THE NUMBER -->
+  <section class="slide" id="s9">
+    <div class="label">Die Zahl, auf die es ankommt</div>
+    <div class="bignum-hero">
+      <div class="bignum-n">~23</div>
+      <div class="bignum-eq">Stunden pro Woche zur&uuml;ck. &Uuml;ber 8 Wochen gemessen. Aber die <span class="accent">gr&ouml;&szlig;eren Gewinne</span> stehen nicht auf dem Stundenzettel.</div>
+    </div>
+    <div class="bignum-wins">
+      <div class="bw">
+        <div class="h">Gr&ouml;&szlig;erer Gewinn 01</div>
+        <div class="t">Nichts f&auml;llt mehr raus</div>
+        <div class="d">Entscheidungen, Fristen, Kontext. Alles taucht auf, wenn ich es brauche.</div>
+      </div>
+      <div class="bw">
+        <div class="h">Gr&ouml;&szlig;erer Gewinn 02</div>
+        <div class="t">Entw&uuml;rfe gehen raus</div>
+        <div class="d">Zwei Minuten statt drei Tage. Die Nachricht wird gesendet.</div>
+      </div>
+      <div class="bw">
+        <div class="h">Gr&ouml;&szlig;erer Gewinn 03</div>
+        <div class="t">Weniger Kopflast</div>
+        <div class="d">Ich fahre nicht mehr sechs Zeitstr&auml;nge im Kopf. Energie kommt zur&uuml;ck.</div>
+      </div>
+    </div>
+    <div class="brand">#BCD &middot; Erler Ventures</div>
+    <div class="page-num">09 / 13</div>
+  </section>
+
+  <!-- 10 WHERE THE HOURS COME FROM -->
+  <section class="slide" id="s10">
+    <div class="label">Woher die 23 Stunden wirklich kommen</div>
+    <h2 class="title" style="margin-bottom: 1.75rem; font-size: clamp(1.85rem, 3.2vw, 2.8rem);">Echte Aufgaben. Echte Frequenzen.<br><span class="accent">&Uuml;ber 8 Wochen getrackt.</span></h2>
+    <table class="time-table">
+      <thead>
+        <tr>
+          <th style="width: 22%;">Aufgabe</th>
+          <th style="width: 14%;">Wann</th>
+          <th style="width: 26%;">Ohne Brain</th>
+          <th style="width: 26%;">Mit Brain</th>
+          <th class="right" style="width: 12%;">Gespart / Woche</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="task">Morning Briefing<small>Top-Inbox, heutiger Kalender, offene Threads</small></td>
+          <td class="freq">T&auml;glich, 06:30</td>
+          <td class="without"><span class="strike">30 Min</span> Kaffee + Inbox + Kalender</td>
+          <td class="with"><strong>3 Min</strong> Telegram lesen, ganzer Tag auf einer Seite</td>
+          <td class="saved">2,25h</td>
+        </tr>
+        <tr>
+          <td class="task">Meeting-Prep<small>voller Kontext pro Person vor jedem Call</small></td>
+          <td class="freq">~4 Calls / Tag</td>
+          <td class="without"><span class="strike">20 Min &times; 4</span> LinkedIn + alte Mails + CRM</td>
+          <td class="with"><strong>3 Min &times; 4</strong> Brief fertig: wer, letzter Kontakt, offen</td>
+          <td class="saved">5,7h</td>
+        </tr>
+        <tr>
+          <td class="task">Mail- + Chat-Entw&uuml;rfe<small>richtiger Ton pro Beziehung</small></td>
+          <td class="freq">~8 Entw&uuml;rfe / Tag</td>
+          <td class="without"><span class="strike">5 Min &times; 8</span> in fremder Stimme schreiben</td>
+          <td class="with"><strong>1 Min &times; 8</strong> Entwurf fertig, mein Ton pro Kanal</td>
+          <td class="saved">2,7h</td>
+        </tr>
+        <tr>
+          <td class="task">Immobilien-Pricing<small>Revenue-Check &uuml;ber mehrere Objekte</small></td>
+          <td class="freq">T&auml;glich auto</td>
+          <td class="without"><span class="strike">1h / Tag</span> manuelle Preispr&uuml;fung</td>
+          <td class="with"><strong>0 Min</strong> l&auml;uft 06:00, ich lese den Diff bei Kaffee</td>
+          <td class="saved">5h</td>
+        </tr>
+        <tr>
+          <td class="task">Stakeholder-Updates<small>Investoren, Kunden, Co-Founder</small></td>
+          <td class="freq">~5 / Woche</td>
+          <td class="without"><span class="strike">20 Min &times; 5</span> das Update von Null schreiben</td>
+          <td class="with"><strong>5 Min &times; 5</strong> Entwurf aus letztem Kontakt + offen</td>
+          <td class="saved">1,25h</td>
+        </tr>
+        <tr>
+          <td class="task">Freitags-Review<small>&uuml;ber alle sechs Spuren</small></td>
+          <td class="freq">Fr 17:00</td>
+          <td class="without"><span class="strike">90 Min</span> Reflexion + Notiz an mich selbst</td>
+          <td class="with"><strong>10 Min</strong> Entwurf pr&uuml;fen, editieren, ablegen</td>
+          <td class="saved">1,3h</td>
+        </tr>
+        <tr>
+          <td class="task">Rechnungen + Belege<small>monatlicher Buchhaltungs-Batch</small></td>
+          <td class="freq">Monatlich auto</td>
+          <td class="without"><span class="strike">2h / Monat</span> manueller Upload</td>
+          <td class="with"><strong>0 Min</strong> auto-weitergeleitet, ich genehmige</td>
+          <td class="saved">0,5h</td>
+        </tr>
+        <tr>
+          <td class="task">Kundenresearch<small>Prozess-Audits, ICP-Analyse, Skript-Reviews</small></td>
+          <td class="freq">~2 / Monat</td>
+          <td class="without"><span class="strike">8h &times; 2/Mon</span> manueller Deep-Dive</td>
+          <td class="with"><strong>1,5h &times; 2/Mon</strong> automatisiert, ich pr&uuml;fe</td>
+          <td class="saved">3h</td>
+        </tr>
+        <tr>
+          <td class="task">Kunden-Deliverables<small>Decks, Briefs, Protokolle, Action-Items</small></td>
+          <td class="freq">~3 / Woche</td>
+          <td class="without"><span class="strike">90 Min &times; 3</span> von Null drauflos</td>
+          <td class="with"><strong>15 Min &times; 3</strong> Entwurf in meiner Stimme, ich editiere</td>
+          <td class="saved">3,75h</td>
+        </tr>
+        <tr class="totals">
+          <td colspan="4">Gesparte Zeit pro Woche</td>
+          <td class="saved">~23h</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="time-foot">Getrackt M&auml;rz bis April 2026. <strong>Pers&ouml;nliche Admin + Betrieb + Kundenarbeit.</strong> Echte Aufgaben. Echte Frequenzen. Echte Outputs.</div>
+    <div class="brand">#BCD &middot; Erler Ventures</div>
+    <div class="page-num">10 / 13</div>
+  </section>
+
+  <!-- 11 WHERE IT BREAKS -->
+  <section class="slide" id="s11">
+    <div class="label">Ehrlich, wo es noch hakt</div>
+    <h2 class="title">Vier Fallen, in die ich getappt bin.<br><span class="accent">Damit du es nicht musst.</span></h2>
+    <div class="rules">
+      <div class="rule"><div class="rn">01</div><div class="rb"><div class="rh">Tools kommen und gehen</div><div class="rd">Apps verschwinden, Preise kippen &uuml;ber Nacht. <strong>Bleib in einfachen Dateien, die jeder &ouml;ffnen kann.</strong> Der Workflow muss das Tool &uuml;berleben.</div></div></div>
+      <div class="rule"><div class="rn">02</div><div class="rb"><div class="rh">KI erfindet Dinge</div><div class="rd">Modelle raten bei Long-Tail-Daten. <strong>Erzwinge Quellen.</strong> Keine Zahl, kein Name, kein Datum ohne Beleg.</div></div></div>
+      <div class="rule"><div class="rn">03</div><div class="rb"><div class="rh">Daten haben Grenzen</div><div class="rd">Entscheide <strong>vorher</strong>, was die KI anfassen darf, nicht hinterher. Erst der Datenschutz-Zaun, dann der Workflow.</div></div></div>
+      <div class="rule"><div class="rn">04</div><div class="rb"><div class="rh">Es sind Menschen, nicht Technik</div><div class="rd">7 von 10 dieser Projekte scheitern, weil niemand sie nutzt. <strong>Adoption ist der Burggraben,</strong> nicht das Modell.</div></div></div>
+    </div>
+    <div class="brand">#BCD &middot; Erler Ventures</div>
+    <div class="page-num">11 / 13</div>
+  </section>
+
+  <!-- 12 WHAT THIS MEANS FOR YOU -->
+  <section class="slide" id="s12">
+    <div class="label">Was das f&uuml;r dich hei&szlig;t</div>
+    <h2 class="title">Perfektioniere nicht das Setup.<br><span class="accent">Bring diese Woche einen Workflow live.</span></h2>
+    <div class="rules">
+      <div class="rule"><div class="rn">01</div><div class="rb"><div class="rh">Finde den Abfluss</div><div class="rd">Welche wiederkehrende Aufgabe frisst <strong>mehr als 5h pro Woche?</strong> Reporting? Stakeholder-Updates? Deal-Sichtung? Brief-Schreiben?</div></div></div>
+      <div class="rule"><div class="rn">02</div><div class="rb"><div class="rh">Wickle einen Workflow</div><div class="rd">Memory plus Tools plus eine kurze Klartext-Anweisung. <strong>Bau keine Plattform. Bau eine Gewohnheit.</strong></div></div></div>
+      <div class="rule"><div class="rn">03</div><div class="rb"><div class="rh">Ein Twin pro Rolle</div><div class="rd">Einer f&uuml;rs Investment-Sourcing. Einer f&uuml;rs Portfolio-Reporting. Einer f&uuml;rs Office. <strong>Nicht einer f&uuml;r alles.</strong> Nimm eine Rolle und bring sie live.</div></div></div>
+      <div class="rule"><div class="rn">04</div><div class="rb"><div class="rh">Kill es, wenn es sich in einer Woche nicht auszahlt</div><div class="rd">Spart ein Workflow in sieben Tagen keine echte Zeit, ist <strong>der Workflow falsch, nicht die Technik.</strong> Nimm den n&auml;chsten.</div></div></div>
+    </div>
+    <div class="brand">#BCD &middot; Erler Ventures</div>
+    <div class="page-num">12 / 13</div>
+  </section>
+
+  <!-- 13 CLOSING -->
+  <section class="slide" id="s13">
+    <div class="label">&Uuml;ber zu euch</div>
+    <div class="close-h"><span class="l1">Drei Sachen</span><span class="l2">zum Mitnehmen.</span></div>
+    <div class="close-sub">Such dir eine aus. Versuch, sie bis Freitag live zu bringen.</div>
+    <div class="close-prompts-h">F&uuml;r den Austausch</div>
+    <div class="close-prompts">
+      <div class="close-prompt">
+        <div class="qn">01</div>
+        <div class="qt">EINE wiederkehrende Aufgabe, die du morgen einem Twin geben w&uuml;rdest.</div>
+      </div>
+      <div class="close-prompt">
+        <div class="qn">02</div>
+        <div class="qt">EIN St&uuml;ck Kontext, das in deinem Kopf lebt und woanders hingeh&ouml;rt.</div>
+      </div>
+      <div class="close-prompt">
+        <div class="qn">03</div>
+        <div class="qt">EIN Workflow, den du bis Freitag live bringen k&ouml;nntest.</div>
+      </div>
+    </div>
+    <div class="close-link">
+      <span class="ll">Slides nochmal ansehen</span>
+      <a href="https://chris1928a.github.io/erler-ventures/talks/2026-06-12-bcd-berlin/">chris1928a.github.io/erler-ventures/talks/2026-06-12-bcd-berlin</a>
+    </div>
+    <div class="close-bottom">
+      <div>
+        <div class="lbl">Speaker</div>
+        <div class="v acc">Christoph Erler</div>
+        <div class="v" style="font-size: 0.78rem; font-weight: 400; color: var(--muted); margin-top: 0.25rem;">Founder, Erler Ventures</div>
+        <div class="v" style="font-size: 0.78rem; font-weight: 500; margin-top: 0.4rem;"><a href="mailto:chris@erlerventures.org">chris@erlerventures.org</a></div>
+      </div>
+      <div class="right">
+        <div class="lbl">Event</div>
+        <div class="v">#BCD &middot; AI Deep Dive</div>
+        <div class="v" style="font-size: 0.78rem; font-weight: 400; color: var(--muted); margin-top: 0.25rem;">Berlin &middot; 12. Juni 2026</div>
+        <div class="v" style="font-size: 0.78rem; font-weight: 500; margin-top: 0.4rem;"><a href="https://erlerventures.org">erlerventures.org</a></div>
+      </div>
+    </div>
+    <div class="brand">#BCD &middot; Erler Ventures</div>
+    <div class="page-num">13 / 13</div>
+  </section>
+
+</div>
+
+<div class="nav-hint">Pfeiltasten zum Bl&auml;ttern</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let current = 0;
+  function go(idx) {
+    if (idx < 0 || idx >= slides.length) return;
+    slides[current].classList.remove('active');
+    slides[idx].classList.add('active');
+    current = idx;
+    history.replaceState({}, '', '#' + (idx + 1));
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); go(current + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(current - 1); }
+    if (e.key === 'Home') go(0);
+    if (e.key === 'End') go(slides.length - 1);
+    document.querySelector('.nav-hint').classList.add('hidden');
+  });
+  document.querySelector('.deck').addEventListener('click', (e) => {
+    const x = e.clientX; const w = window.innerWidth;
+    if (x > w / 2) go(current + 1);
+    else go(current - 1);
+  });
+  if (window.location.hash) {
+    const n = parseInt(window.location.hash.replace('#', ''));
+    if (n >= 1 && n <= slides.length) go(n - 1);
+  }
+  setTimeout(() => document.querySelector('.nav-hint').classList.add('hidden'), 5000);
+</script>
+</body>
+</html>
