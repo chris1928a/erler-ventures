@@ -118,11 +118,11 @@
 
   /* TWO-COL PANELS */
   .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
-  .col { display: flex; flex-direction: column; gap: 1rem; }
+  .col { display: flex; flex-direction: column; gap: 0.7rem; }
   .col .tag { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
   .col.warn .tag { color: var(--red); }
-  .col .name { font-weight: 600; font-size: clamp(1.4rem, 2vw, 1.85rem); color: var(--text); letter-spacing: -0.025em; margin-bottom: 0.5rem; }
-  .col-line { display: grid; grid-template-columns: 0.55rem 1fr; gap: 0.85rem; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px solid var(--border); }
+  .col .name { font-weight: 600; font-size: clamp(1.35rem, 1.9vw, 1.75rem); color: var(--text); letter-spacing: -0.025em; margin-bottom: 0.25rem; }
+  .col-line { display: grid; grid-template-columns: 0.55rem 1fr; gap: 0.85rem; align-items: baseline; padding: 0.4rem 0; border-bottom: 1px solid var(--border); }
   .col-line:last-child { border-bottom: none; }
   .col-line::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: 0.55rem; }
   .col.warn .col-line::before { background: var(--red); }
@@ -131,7 +131,7 @@
 
   /* ARCH STACK */
   .archstack { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem; }
-  .layer { display: grid; grid-template-columns: 0.35rem 11rem 1fr; gap: 1.5rem; align-items: center; padding: 1.0rem 0; border-bottom: 1px solid var(--border); }
+  .layer { display: grid; grid-template-columns: 0.35rem 11rem 1fr; gap: 1.5rem; align-items: center; padding: 0.82rem 0; border-bottom: 1px solid var(--border); }
   .layer:first-child { border-top: 1px solid var(--border); }
   .layer-bar { background: var(--accent); height: 2.4rem; border-radius: 2px; }
   .layer-tag { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text); }
@@ -141,6 +141,39 @@
   .layer.lead .layer-tag { color: var(--accent); }
   .archstack-foot { font-size: 0.85rem; font-weight: 400; color: var(--muted); line-height: 1.55; font-style: italic; }
   .archstack-foot strong { color: var(--accent); font-style: normal; font-weight: 600; }
+
+  /* CALENDAR / CRON SCHEDULE */
+  .cal { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+  .cal th { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--text); padding: 0.5rem 0.6rem; text-align: left; }
+  .cal th.right { text-align: right; }
+  .cal td { padding: 0.58rem 0.6rem; border-bottom: 1px solid var(--border-strong); font-size: 0.92rem; vertical-align: middle; }
+  .cal .when { font-family: var(--mono); font-size: 0.76rem; font-weight: 700; color: var(--accent); white-space: nowrap; }
+  .cal .job { font-weight: 600; color: var(--text); }
+  .cal .job small { display: block; color: var(--muted); font-weight: 400; font-size: 0.76rem; margin-top: 0.1rem; }
+  .cal .save { font-weight: 700; color: var(--accent); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .cal .save.soft { color: var(--muted); font-weight: 500; font-size: 0.8rem; }
+  .cal tr.total td { border-top: 2px solid var(--text); border-bottom: none; padding-top: 0.65rem; font-weight: 700; font-size: 1rem; }
+  .cal tr.total .save { font-size: 1.15rem; color: var(--accent); }
+  .cal-foot { font-size: 0.88rem; color: var(--muted); line-height: 1.5; font-style: italic; }
+  .cal-foot strong { color: var(--accent); font-style: normal; font-weight: 700; }
+
+  /* COST COMPARISON */
+  .cost { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 1.5rem; }
+  .cost-col { border-top: 3px solid var(--accent); padding-top: 1rem; }
+  .cost-col.red { border-top-color: var(--red); }
+  .cost-col .ct { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.9rem; }
+  .cost-col.red .ct { color: var(--red); }
+  .cost-row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.45rem 0; border-bottom: 1px solid var(--border); font-size: 0.98rem; }
+  .cost-row .k { color: var(--text); }
+  .cost-row .v { font-weight: 600; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .cost-sum { display: flex; justify-content: space-between; gap: 1rem; padding-top: 0.7rem; margin-top: 0.3rem; border-top: 2px solid var(--text); }
+  .cost-sum .k { font-weight: 700; font-size: 1.05rem; color: var(--text); }
+  .cost-sum .v { font-weight: 800; font-size: 1.3rem; color: var(--accent); }
+  .cost-col.red .cost-sum .v { color: var(--red); }
+  .cost-punch { display: flex; align-items: baseline; gap: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .cost-punch .big { font-weight: 800; font-size: clamp(2.5rem, 5vw, 4rem); color: var(--accent); letter-spacing: -0.04em; line-height: 1; }
+  .cost-punch .small { font-size: 1rem; color: var(--text); font-weight: 500; line-height: 1.45; max-width: 50ch; }
+  .cost-punch .small strong { color: var(--accent); font-weight: 700; }
 
   /* WORKFLOWS / DEMO LIST */
   .wfs { display: flex; flex-direction: column; }
@@ -289,7 +322,7 @@
   <!-- 03 TOOL OVERLOAD -->
   <section class="slide" id="s3">
     <div class="label">Tool Overload</div>
-    <h2 class="title">Noch ein Tool macht es schlimmer,<br><span class="accent">nicht besser.</span></h2>
+    <h2 class="title" style="margin-bottom: 1.5rem; font-size: clamp(1.9rem, 3.6vw, 3rem);">Noch ein Tool macht es schlimmer, <span class="accent">nicht besser.</span></h2>
     <div class="twocol">
       <div class="col warn">
         <div class="tag">Der Reflex</div>
@@ -369,35 +402,35 @@
   <!-- 05 ARCHITECTURE -->
   <section class="slide" id="s5">
     <div class="label"><span class="act">Teil 1 &middot; Second Brain</span> &middot; Wie es gebaut ist</div>
-    <h2 class="title">Memory. Tools. Workflows. Skills.<br><span class="accent">Eine T&uuml;r.</span></h2>
+    <h2 class="title" style="margin-bottom: 1.25rem; font-size: clamp(1.9rem, 3.4vw, 2.9rem);">Memory. Tools. Workflows. Skills. <span class="accent">Eine T&uuml;r.</span></h2>
     <div class="archstack">
       <div class="layer lead">
         <div class="layer-bar"></div>
         <div class="layer-tag">T&uuml;r</div>
-        <div class="layer-desc"><strong>Ein Chat.</strong> Er w&auml;hlt das richtige Playbook und ruft die richtigen Tools f&uuml;r die Frage, die du stellst.</div>
+        <div class="layer-desc"><strong>Ein Chat.</strong> Claude Code w&auml;hlt aus 19 Skills das richtige Playbook und ruft die richtigen Tools.</div>
       </div>
       <div class="layer">
         <div class="layer-bar"></div>
         <div class="layer-tag">Skills</div>
-        <div class="layer-desc"><strong>Mini-Playbooks, eins pro Spur.</strong> Immobilien-Pricing, Kundenbriefe, Hochzeit, Rechtsf&auml;lle. Jedes ist ein Absatz Klartext.</div>
+        <div class="layer-desc"><strong>19 Mini-Playbooks,</strong> eins pro Spur. Pricing, Kundenbriefe, Hochzeit, Recht. Jedes ein Absatz Klartext.</div>
       </div>
       <div class="layer">
         <div class="layer-bar"></div>
         <div class="layer-tag">Workflows</div>
-        <div class="layer-desc">Die wiederkehrenden Rituale. <strong>Morning Brief. Meeting-Prep. Entw&uuml;rfe. Freitags-Review.</strong></div>
+        <div class="layer-desc"><strong>7 Crons + On-Demand.</strong> Morning Brief, Meeting-Prep, Entw&uuml;rfe, Review. Laufen von selbst.</div>
       </div>
       <div class="layer">
         <div class="layer-bar"></div>
         <div class="layer-tag">Tools</div>
-        <div class="layer-desc"><strong>Was du eh t&auml;glich nutzt.</strong> Mail, Kalender, Drive, Notizen, Kontakte. Nichts Neues zu installieren.</div>
+        <div class="layer-desc"><strong>31 MCP-Server.</strong> Mail, Kalender, Drive, CRM, Web. Alles was du eh nutzt, nichts Neues.</div>
       </div>
       <div class="layer">
         <div class="layer-bar"></div>
         <div class="layer-tag">Memory</div>
-        <div class="layer-desc">Nichts f&auml;llt raus. <strong>Entscheidungen, Notizen, Kontext.</strong> Durchsuchbar, f&uuml;r immer.</div>
+        <div class="layer-desc"><strong>125 Dateien,</strong> versioniert auf GitHub, EU-Server Frankfurt. Nichts f&auml;llt raus, durchsuchbar.</div>
       </div>
     </div>
-    <div class="archstack-foot"><strong>Keine Raketenwissenschaft:</strong> das Wissen, das du ohnehin hast, zentral, zug&auml;nglich f&uuml;r die KI, die du nutzt (Claude, OpenAI, egal). Auf deiner Cloud, deine Daten bleiben deine.</div>
+    <div class="archstack-foot"><strong>31 MCP &middot; 19 Skills &middot; 125 Memory-Dateien &middot; 7 Crons.</strong> Keine Raketenwissenschaft: dein eigenes Wissen, zentral, f&uuml;r die KI die du nutzt (Claude, OpenAI, egal). Versioniert, EU, deine Daten bleiben deine.</div>
     <div class="brand">#BCD &middot; Erler Ventures</div>
     <div class="page-num">05 / 13</div>
   </section>
@@ -458,7 +491,59 @@
     <div class="page-num">07 / 13</div>
   </section>
 
-  <!-- 08 HINGE: SECOND BRAIN -> COMPANY BRAIN -->
+  <!-- 08 MEIN KALENDER / 7 CRONS -->
+  <section class="slide" id="s7b">
+    <div class="label"><span class="act">Teil 1 &middot; Second Brain</span> &middot; Mein Kalender</div>
+    <h2 class="title" style="margin-bottom: 1.25rem; font-size: clamp(1.9rem, 3.4vw, 2.9rem);">Meine Woche l&auml;uft auf <span class="accent">7 Crons.</span></h2>
+    <table class="cal">
+      <thead>
+        <tr><th style="width:18%">Wann</th><th>Was l&auml;uft automatisch</th><th class="right" style="width:18%">Spart / Woche</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="when">T&auml;glich 06:00</td><td class="job">Immobilien-Pricing<small>6 Studios, Holidu-Preise + Notion-Log</small></td><td class="save">5,0h</td></tr>
+        <tr><td class="when">T&auml;glich 07:00</td><td class="job">Morning Brief<small>Inbox Top 3, Kalender, offene Threads &rarr; Telegram</small></td><td class="save">2,25h</td></tr>
+        <tr><td class="when">St&uuml;ndlich</td><td class="job">Memory-Sync<small>GitHub &rarr; lokal + Telegram-Server</small></td><td class="save soft">im Hintergrund</td></tr>
+        <tr><td class="when">Fr 17:00</td><td class="job">Weekly Review<small>7-Tage-Summary, offene Threads &rarr; Telegram</small></td><td class="save">1,3h</td></tr>
+        <tr><td class="when">So 14:00</td><td class="job">Content-Engine<small>LinkedIn + Substack-Entw&uuml;rfe, Voice-Check</small></td><td class="save soft">ein Content-Tag</td></tr>
+        <tr><td class="when">Mo 1./Monat</td><td class="job">Rechnungen + DATEV<small>PDF-Rechnungen, signiert, archiviert</small></td><td class="save">0,5h</td></tr>
+        <tr><td class="when">On-Demand</td><td class="job">Meeting-Prep + Entw&uuml;rfe pro Kanal<small>der gr&ouml;&szlig;te Brocken, l&auml;uft wenn ich es brauche</small></td><td class="save">8,4h</td></tr>
+        <tr class="total"><td></td><td>Summe</td><td class="save">~23h / Woche</td></tr>
+      </tbody>
+    </table>
+    <div class="cal-foot">Regel: <strong>was du dreimal im Monat manuell machst, wird ein Cron.</strong> Nichts davon fasse ich noch selbst an.</div>
+    <div class="brand">#BCD &middot; Erler Ventures</div>
+    <div class="page-num">08 / 15</div>
+  </section>
+
+  <!-- 09 DIE RECHNUNG / FTE -->
+  <section class="slide" id="s7c">
+    <div class="label"><span class="act">Teil 1 &middot; Second Brain</span> &middot; Die Rechnung</div>
+    <h2 class="title" style="margin-bottom: 1.5rem; font-size: clamp(1.9rem, 3.4vw, 2.9rem);">150 Euro im Monat. <span class="accent">Statt 1,5 Mitarbeitern.</span></h2>
+    <div class="cost">
+      <div class="cost-col">
+        <div class="ct">Was es kostet</div>
+        <div class="cost-row"><span class="k">Claude Pro</span><span class="v">~20 EUR/mo</span></div>
+        <div class="cost-row"><span class="k">AWS-Server Frankfurt (EU)</span><span class="v">~20 EUR/mo</span></div>
+        <div class="cost-row"><span class="k">API-Spend, 31 MCP-Server</span><span class="v">~110 EUR/mo</span></div>
+        <div class="cost-sum"><span class="k">Gesamt</span><span class="v">~150 EUR/mo</span></div>
+      </div>
+      <div class="cost-col red">
+        <div class="ct">Was es ersetzt</div>
+        <div class="cost-row"><span class="k">0,5 Assistenz</span><span class="v">7-9k/mo je FTE</span></div>
+        <div class="cost-row"><span class="k">0,5 Analyst</span><span class="v">DACH-Satz</span></div>
+        <div class="cost-row"><span class="k">0,5 Content-Manager</span><span class="v">= 1,5 FTE</span></div>
+        <div class="cost-sum"><span class="k">Gesamt</span><span class="v">80-110k/Jahr</span></div>
+      </div>
+    </div>
+    <div class="cost-punch">
+      <div class="big">45-60&times;</div>
+      <div class="small">g&uuml;nstiger als das Team, das ich nach dem Exit eingestellt h&auml;tte. <strong>Plus ~270k EUR/Jahr</strong> eigene Zeit zur&uuml;ck (23h &times; 47 Wochen &times; 250 EUR/h).</div>
+    </div>
+    <div class="brand">#BCD &middot; Erler Ventures</div>
+    <div class="page-num">09 / 15</div>
+  </section>
+
+  <!-- 10 HINGE: SECOND BRAIN -> COMPANY BRAIN -->
   <section class="slide dark" id="s8">
     <div class="label">Der eigentliche Hebel</div>
     <div class="live-h">Das war der No-Brainer.<br><span class="accent">Jetzt das Company Brain.</span></div>
@@ -606,7 +691,7 @@
   <!-- 12 WHAT THIS MEANS FOR YOU -->
   <section class="slide" id="s12">
     <div class="label">Was das f&uuml;r dich hei&szlig;t</div>
-    <h2 class="title">Zwei Wege.<br><span class="accent">Such dir einen aus.</span></h2>
+    <h2 class="title" style="margin-bottom: 1.5rem; font-size: clamp(1.9rem, 3.6vw, 3rem);">Zwei Wege. <span class="accent">Such dir einen aus.</span></h2>
     <div class="twocol">
       <div class="col">
         <div class="tag">F&uuml;r dich</div>
@@ -677,6 +762,10 @@
 
 <script>
   const slides = document.querySelectorAll('.slide');
+  slides.forEach(function(s, i) {
+    const p = s.querySelector('.page-num');
+    if (p) p.textContent = ('0' + (i + 1)).slice(-2) + ' / ' + ('0' + slides.length).slice(-2);
+  });
   let current = 0;
   function go(idx) {
     if (idx < 0 || idx >= slides.length) return;
