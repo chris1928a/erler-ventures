@@ -145,6 +145,15 @@
   .archstack-foot a { color: var(--accent-deep); font-family: var(--mono); font-size: 0.8rem; font-style: normal; text-decoration: none; }
   .archstack-foot a:hover { text-decoration: underline; }
 
+  /* EXPLAINER CHIPS (MCP, Cron, Repo) */
+  .chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 0.5rem; }
+  .chip { border: 1px solid var(--border-strong); border-top: 3px solid var(--accent); border-radius: 0 0 6px 6px; padding: 0.65rem 0.9rem; }
+  .chip .ct { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; }
+  .chip .cd { font-size: 0.8rem; color: var(--muted); line-height: 1.45; }
+  .chip .cd strong { color: var(--text); font-weight: 600; }
+  .chip .cd a { color: var(--accent-deep); font-family: var(--mono); font-size: 0.74rem; text-decoration: none; word-break: break-all; }
+  .chip .cd a:hover { text-decoration: underline; }
+
   /* CALENDAR / CRON SCHEDULE */
   .cal { width: 100%; border-collapse: collapse; margin-bottom: 0.9rem; }
   .cal th { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--text); padding: 0.45rem 0.6rem; text-align: left; }
@@ -409,35 +418,79 @@
   <!-- 05 ARCHITECTURE -->
   <section class="slide" id="s5">
     <div class="label"><span class="act">Teil 1 &middot; Second Brain</span> &middot; Wie es gebaut ist</div>
-    <h2 class="title" style="margin-bottom: 1.25rem; font-size: clamp(1.9rem, 3.4vw, 2.9rem);">Memory. Tools. Workflows. Skills. <span class="accent">Eine T&uuml;r.</span></h2>
-    <div class="archstack">
-      <div class="layer lead">
-        <div class="layer-bar"></div>
-        <div class="layer-tag">T&uuml;r</div>
-        <div class="layer-desc"><strong>Ein Chat.</strong> Claude Code w&auml;hlt aus 19 Skills das richtige Playbook und ruft die richtigen Tools.</div>
+    <h2 class="title" style="margin-bottom: 0.75rem; font-size: clamp(1.8rem, 3.2vw, 2.7rem);">Das ganze Setup <span class="accent">in einem Bild.</span></h2>
+    <div class="diagram">
+      <svg viewBox="0 0 1000 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Second Brain Fluss: Tools links, Brain in der Mitte, Outputs rechts" style="max-height: 36vh;">
+        <defs>
+          <marker id="arrFlow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+          </marker>
+        </defs>
+        <text x="110" y="18" text-anchor="middle" fill="#71717a" font-size="10" font-weight="700" font-family="Inter, sans-serif" letter-spacing="2">DEINE TOOLS</text>
+        <text x="890" y="18" text-anchor="middle" fill="#71717a" font-size="10" font-weight="700" font-family="Inter, sans-serif" letter-spacing="2">WAS RAUSKOMMT</text>
+        <g stroke="#2563eb" stroke-width="1.6" fill="none" marker-end="url(#arrFlow1)">
+          <line x1="212" y1="62" x2="374" y2="158"/>
+          <line x1="212" y1="180" x2="374" y2="180"/>
+          <line x1="212" y1="298" x2="374" y2="202"/>
+          <line x1="626" y1="158" x2="786" y2="62"/>
+          <line x1="626" y1="180" x2="786" y2="180"/>
+          <line x1="626" y1="202" x2="786" y2="298"/>
+        </g>
+        <rect x="251" y="153" width="88" height="24" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="1"/>
+        <text x="295" y="169" text-anchor="middle" fill="#2563eb" font-size="11" font-weight="700" font-family="Inter, sans-serif">31&times; MCP</text>
+        <g>
+          <rect x="10" y="30" width="200" height="64" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+          <text x="110" y="58" text-anchor="middle" fill="#09090b" font-size="14" font-weight="700" font-family="Inter, sans-serif">Mail + Kalender</text>
+          <text x="110" y="76" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Inbox, Termine, Kontakte</text>
+        </g>
+        <g>
+          <rect x="10" y="148" width="200" height="64" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+          <text x="110" y="176" text-anchor="middle" fill="#09090b" font-size="14" font-weight="700" font-family="Inter, sans-serif">Drive, Notion, CRM</text>
+          <text x="110" y="194" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Dokumente, Deals, Notizen</text>
+        </g>
+        <g>
+          <rect x="10" y="266" width="200" height="64" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+          <text x="110" y="294" text-anchor="middle" fill="#09090b" font-size="14" font-weight="700" font-family="Inter, sans-serif">Web + Portale</text>
+          <text x="110" y="312" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Research, Buchungen, Preise</text>
+        </g>
+        <g>
+          <rect x="380" y="115" width="240" height="130" rx="8" fill="#2563eb"/>
+          <text x="500" y="143" text-anchor="middle" fill="#bfdbfe" font-size="10" font-weight="700" font-family="Inter, sans-serif" letter-spacing="2">DAS BRAIN</text>
+          <text x="500" y="172" text-anchor="middle" fill="#ffffff" font-size="17" font-weight="700" font-family="Inter, sans-serif">Claude + GitHub + Server</text>
+          <text x="500" y="197" text-anchor="middle" fill="#bfdbfe" font-size="11" font-family="Inter, sans-serif">125 Memory-Dateien, versioniert</text>
+          <text x="500" y="216" text-anchor="middle" fill="#bfdbfe" font-size="11" font-family="Inter, sans-serif">7 Crons, Frankfurt (EU)</text>
+        </g>
+        <g>
+          <rect x="790" y="30" width="200" height="64" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+          <text x="890" y="58" text-anchor="middle" fill="#09090b" font-size="14" font-weight="700" font-family="Inter, sans-serif">Telegram-Brief, 07:00</text>
+          <text x="890" y="76" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">der Tag auf einer Seite</text>
+        </g>
+        <g>
+          <rect x="790" y="148" width="200" height="64" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+          <text x="890" y="176" text-anchor="middle" fill="#09090b" font-size="14" font-weight="700" font-family="Inter, sans-serif">Entw&uuml;rfe in meinem Ton</text>
+          <text x="890" y="194" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Mail, Post, Brief, fertig</text>
+        </g>
+        <g>
+          <rect x="790" y="266" width="200" height="64" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+          <text x="890" y="294" text-anchor="middle" fill="#09090b" font-size="14" font-weight="700" font-family="Inter, sans-serif">Preis-Empfehlung</text>
+          <text x="890" y="312" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Push erst nach meinem Klick</text>
+        </g>
+      </svg>
+    </div>
+    <div class="chips">
+      <div class="chip">
+        <div class="ct">Was ist MCP?</div>
+        <div class="cd"><strong>Der genormte Stecker zwischen KI und Tool.</strong> USB f&uuml;r KI: ein Stecker pro Tool, Claude kann damit lesen und bedienen. Ich habe 31 davon.</div>
       </div>
-      <div class="layer">
-        <div class="layer-bar"></div>
-        <div class="layer-tag">Skills</div>
-        <div class="layer-desc"><strong>19 Mini-Playbooks,</strong> mehrere pro Spur. Pricing, Kundenbriefe, Hochzeit, Recht. Jedes ein Absatz Klartext.</div>
+      <div class="chip">
+        <div class="ct">Was ist ein Cron?</div>
+        <div class="cd"><strong>Ein Wecker auf dem Server.</strong> Zur festen Uhrzeit l&auml;uft ein Auftrag von selbst, 06:00 Pricing, 07:00 Brief. Niemand klickt.</div>
       </div>
-      <div class="layer">
-        <div class="layer-bar"></div>
-        <div class="layer-tag">Workflows</div>
-        <div class="layer-desc"><strong>7 Crons + On-Demand.</strong> Morning Brief, Meeting-Prep, Entw&uuml;rfe, Review. Laufen von selbst.</div>
-      </div>
-      <div class="layer">
-        <div class="layer-bar"></div>
-        <div class="layer-tag">Tools</div>
-        <div class="layer-desc"><strong>31 MCP-Server.</strong> Mail, Kalender, Drive, CRM, Web. Alles was du eh nutzt, nichts Neues.</div>
-      </div>
-      <div class="layer">
-        <div class="layer-bar"></div>
-        <div class="layer-tag">Memory</div>
-        <div class="layer-desc"><strong>125 Dateien,</strong> versioniert auf GitHub, Server in Frankfurt (EU). Nichts f&auml;llt raus, alles durchsuchbar.</div>
+      <div class="chip">
+        <div class="ct">Alles nachpr&uuml;fbar</div>
+        <div class="cd"><strong>Modell austauschbar, Wissen bleibt.</strong> Das Setup ist &ouml;ffentlich: <a href="https://github.com/chris1928a/chris-ai-stack">github.com/chris1928a/chris-ai-stack</a></div>
       </div>
     </div>
-    <div class="archstack-foot"><strong>Das Modell ist austauschbar (Claude, OpenAI, egal). Das Wissen nicht.</strong> Alles &ouml;ffentlich nachpr&uuml;fbar: <a href="https://github.com/chris1928a/chris-ai-stack">github.com/chris1928a/chris-ai-stack</a></div>
     <div class="brand">#BCD &middot; Erler Ventures</div>
     <div class="page-num">05</div>
   </section>
@@ -563,7 +616,76 @@
     <div class="page-num">10</div>
   </section>
 
-  <!-- 11 GOVERNANCE HUB (echtes Projekt) -->
+  <!-- 11 COMPANY BRAIN FLOW (Zwilling von Slide 5) -->
+  <section class="slide" id="s11f">
+    <div class="label"><span class="act">Teil 2 &middot; Company Brain</span> &middot; Wie es flie&szlig;t</div>
+    <h2 class="title" style="margin-bottom: 0.75rem; font-size: clamp(1.8rem, 3.2vw, 2.7rem);">Dasselbe Bild, <span class="accent">eine Ebene h&ouml;her.</span></h2>
+    <div class="diagram">
+      <svg viewBox="0 0 1000 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Company Brain Fluss: Team und Systeme links, Company Brain in der Mitte, Outputs pro Rolle rechts" style="max-height: 40vh;">
+        <defs>
+          <marker id="arrFlow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+          </marker>
+        </defs>
+        <text x="110" y="18" text-anchor="middle" fill="#71717a" font-size="10" font-weight="700" font-family="Inter, sans-serif" letter-spacing="2">DAS TEAM F&Uuml;TTERT</text>
+        <text x="890" y="18" text-anchor="middle" fill="#71717a" font-size="10" font-weight="700" font-family="Inter, sans-serif" letter-spacing="2">DAS TEAM FRAGT</text>
+        <g stroke="#2563eb" stroke-width="1.6" fill="none" marker-end="url(#arrFlow2)">
+          <line x1="212" y1="62" x2="374" y2="158"/>
+          <line x1="212" y1="180" x2="374" y2="180"/>
+          <line x1="212" y1="298" x2="374" y2="202"/>
+          <line x1="626" y1="158" x2="786" y2="62"/>
+          <line x1="626" y1="180" x2="786" y2="180"/>
+          <line x1="626" y1="202" x2="786" y2="298"/>
+        </g>
+        <rect x="247" y="153" width="96" height="24" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="1"/>
+        <text x="295" y="169" text-anchor="middle" fill="#2563eb" font-size="11" font-weight="700" font-family="Inter, sans-serif">9 Rollen</text>
+        <rect x="657" y="153" width="96" height="24" rx="12" fill="#fef2f2" stroke="#dc2626" stroke-width="1"/>
+        <text x="705" y="169" text-anchor="middle" fill="#dc2626" font-size="11" font-weight="700" font-family="Inter, sans-serif">Rechte-Filter</text>
+        <g>
+          <rect x="10" y="30" width="200" height="64" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+          <text x="110" y="58" text-anchor="middle" fill="#09090b" font-size="14" font-weight="700" font-family="Inter, sans-serif">Calls + Entscheidungen</text>
+          <text x="110" y="76" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Transkripte, Protokolle, Gr&uuml;nde</text>
+        </g>
+        <g>
+          <rect x="10" y="148" width="200" height="64" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+          <text x="110" y="176" text-anchor="middle" fill="#09090b" font-size="14" font-weight="700" font-family="Inter, sans-serif">Dokumente + Wissen</text>
+          <text x="110" y="194" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Angebote, Prozesse, Playbooks</text>
+        </g>
+        <g>
+          <rect x="10" y="266" width="200" height="64" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+          <text x="110" y="294" text-anchor="middle" fill="#09090b" font-size="14" font-weight="700" font-family="Inter, sans-serif">Systeme, via Crons</text>
+          <text x="110" y="312" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">CRM, Finanzen, Marktpl&auml;tze</text>
+        </g>
+        <g>
+          <rect x="380" y="115" width="240" height="130" rx="8" fill="#2563eb"/>
+          <text x="500" y="143" text-anchor="middle" fill="#bfdbfe" font-size="10" font-weight="700" font-family="Inter, sans-serif" letter-spacing="2">COMPANY BRAIN</text>
+          <text x="500" y="172" text-anchor="middle" fill="#ffffff" font-size="17" font-weight="700" font-family="Inter, sans-serif">Ein Repo, versioniert</text>
+          <text x="500" y="197" text-anchor="middle" fill="#bfdbfe" font-size="11" font-family="Inter, sans-serif">Zugriff pro Rolle</text>
+          <text x="500" y="216" text-anchor="middle" fill="#bfdbfe" font-size="11" font-family="Inter, sans-serif">auf der Infra der Firma (EU)</text>
+        </g>
+        <g>
+          <rect x="790" y="30" width="200" height="64" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+          <text x="890" y="58" text-anchor="middle" fill="#09090b" font-size="14" font-weight="700" font-family="Inter, sans-serif">Brief an die Founder</text>
+          <text x="890" y="76" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">jeden Morgen, automatisch</text>
+        </g>
+        <g>
+          <rect x="790" y="148" width="200" height="64" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+          <text x="890" y="176" text-anchor="middle" fill="#09090b" font-size="14" font-weight="700" font-family="Inter, sans-serif">Antworten pro Rolle</text>
+          <text x="890" y="194" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">nur im Rahmen der Rechte</text>
+        </g>
+        <g>
+          <rect x="790" y="266" width="200" height="64" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+          <text x="890" y="294" text-anchor="middle" fill="#09090b" font-size="14" font-weight="700" font-family="Inter, sans-serif">Entscheidungsvorlagen</text>
+          <text x="890" y="312" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">der Founder-Twin bereitet vor</text>
+        </g>
+      </svg>
+    </div>
+    <div class="diagram-foot">Gleiche Mechanik wie mein Second Brain. <strong>Das Team f&uuml;ttert, das Team fragt, die Rechte-Matrix sitzt dazwischen.</strong> Wer genau was sieht: n&auml;chste Slide.</div>
+    <div class="brand">#BCD &middot; Erler Ventures</div>
+    <div class="page-num">11</div>
+  </section>
+
+  <!-- 12 GOVERNANCE HUB (echtes Projekt) -->
   <section class="slide" id="s11">
     <div class="label"><span class="act">Teil 2 &middot; Company Brain</span> &middot; Wer sieht was, echtes Projekt</div>
     <h2 class="title" style="margin-bottom: 1rem; font-size: clamp(1.8rem, 3.2vw, 2.7rem);">Neun Rollen. Ein Hirn. <span class="accent">Nicht jeder sieht die Zahlen.</span></h2>
