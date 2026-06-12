@@ -128,6 +128,7 @@
   .twocol-foot { font-size: 0.95rem; font-weight: 500; color: var(--text); line-height: 1.55; max-width: 88ch; padding-top: 1.1rem; border-top: 1px solid var(--border); margin-top: 1.5rem; }
   .twocol-foot strong { color: var(--accent); font-weight: 700; }
   #s12 .col-line, #s5c .col-line { padding: 0.26rem 0; }
+  #s5c .col { gap: 0.45rem; }
   #s12 .col .name, #s5c .col .name { margin-bottom: 0.1rem; }
   #s5c .col-line .l-sub { font-size: 0.74rem; }
 
@@ -499,7 +500,7 @@
   <!-- 05b DEEP DIVE: ARCHITEKTUR MIT ECHTEN BAUTEILEN -->
   <section class="slide" id="s5b">
     <div class="label"><span class="act">Teil 1 &middot; Second Brain</span> &middot; Deep Dive, unter der Motorhaube</div>
-    <h2 class="title" style="margin-bottom: 0.75rem; font-size: clamp(1.8rem, 3.2vw, 2.7rem);">Dieselbe Maschine, <span class="accent">echte Bauteile.</span></h2>
+    <h2 class="title" style="margin-bottom: 0.75rem; font-size: clamp(1.8rem, 3.2vw, 2.7rem);">Drei Bauteile: <span class="accent">Sammler, Ged&auml;chtnis, Denker.</span></h2>
     <div class="diagram">
       <svg viewBox="0 0 1000 420" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Deep-Dive-Architektur: Datenquellen oben, Server, GitHub und Claude in der Mitte, Outputs unten" style="max-height: 44vh;">
         <defs>
@@ -524,53 +525,53 @@
         <g stroke="#94a3b8" stroke-width="1.4" fill="none" stroke-dasharray="4,3" marker-end="url(#arrDeepGrey)">
           <line x1="835" y1="166" x2="860" y2="90"/>
         </g>
-        <rect x="858" y="112" width="122" height="22" rx="11" fill="#f4f4f5" stroke="#94a3b8" stroke-width="1"/>
-        <text x="919" y="127" text-anchor="middle" fill="#52525b" font-size="10" font-weight="700" font-family="Inter, sans-serif">live: 31&times; MCP</text>
+        <rect x="836" y="112" width="148" height="22" rx="11" fill="#f4f4f5" stroke="#94a3b8" stroke-width="1"/>
+        <text x="910" y="127" text-anchor="middle" fill="#52525b" font-size="10" font-weight="700" font-family="Inter, sans-serif">live: 31 Stecker (MCP)</text>
         <g>
           <rect x="20" y="28" width="225" height="56" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
-          <text x="132" y="52" text-anchor="middle" fill="#09090b" font-size="12.5" font-weight="700" font-family="Inter, sans-serif">Google Workspace</text>
-          <text x="132" y="70" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Gmail, Kalender, Drive</text>
+          <text x="132" y="52" text-anchor="middle" fill="#09090b" font-size="12.5" font-weight="700" font-family="Inter, sans-serif">Mail, Kalender, Dateien</text>
+          <text x="132" y="70" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Google: Gmail, Kalender, Drive</text>
         </g>
         <g>
           <rect x="265" y="28" width="225" height="56" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
-          <text x="377" y="52" text-anchor="middle" fill="#09090b" font-size="12.5" font-weight="700" font-family="Inter, sans-serif">Notion + Slack</text>
-          <text x="377" y="70" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Team-Wissen, Threads</text>
+          <text x="377" y="52" text-anchor="middle" fill="#09090b" font-size="12.5" font-weight="700" font-family="Inter, sans-serif">Notizen + Team-Chat</text>
+          <text x="377" y="70" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Notion, Slack</text>
         </g>
         <g>
           <rect x="510" y="28" width="225" height="56" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
-          <text x="622" y="52" text-anchor="middle" fill="#09090b" font-size="12.5" font-weight="700" font-family="Inter, sans-serif">Hostaway, Holidu, Close</text>
-          <text x="622" y="70" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">PMS, Portale, CRM</text>
+          <text x="622" y="52" text-anchor="middle" fill="#09090b" font-size="12.5" font-weight="700" font-family="Inter, sans-serif">Buchungen + Kunden</text>
+          <text x="622" y="70" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Ferienwohnungs-Portale, Kunden-Datenbank</text>
         </g>
         <g>
           <rect x="755" y="28" width="225" height="56" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
-          <text x="867" y="52" text-anchor="middle" fill="#09090b" font-size="12.5" font-weight="700" font-family="Inter, sans-serif">Web + Chrome</text>
-          <text x="867" y="70" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Research, Portale ohne API</text>
+          <text x="867" y="52" text-anchor="middle" fill="#09090b" font-size="12.5" font-weight="700" font-family="Inter, sans-serif">Internet + Browser</text>
+          <text x="867" y="70" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Recherche, Webseiten bedienen</text>
         </g>
         <g>
           <rect x="40" y="170" width="250" height="96" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
-          <text x="165" y="192" text-anchor="middle" fill="#2563eb" font-size="9" font-weight="700" font-family="Inter, sans-serif" letter-spacing="2">SERVER FRANKFURT (EU)</text>
-          <text x="165" y="215" text-anchor="middle" fill="#09090b" font-size="14" font-weight="700" font-family="Inter, sans-serif">7 Crons + Telegram-Bot</text>
-          <text x="165" y="235" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">zieht Daten auf Schedule</text>
+          <text x="165" y="192" text-anchor="middle" fill="#2563eb" font-size="9" font-weight="700" font-family="Inter, sans-serif" letter-spacing="2">DER SAMMLER &middot; SERVER FRANKFURT</text>
+          <text x="165" y="215" text-anchor="middle" fill="#09090b" font-size="14" font-weight="700" font-family="Inter, sans-serif">7 Wecker (Crons)</text>
+          <text x="165" y="235" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">holt Daten zur festen Uhrzeit</text>
           <text x="165" y="252" text-anchor="middle" fill="#71717a" font-size="10" font-family="JetBrains Mono, monospace">~20 EUR/Monat</text>
         </g>
         <g>
           <rect x="375" y="170" width="250" height="96" rx="8" fill="#2563eb"/>
-          <text x="500" y="192" text-anchor="middle" fill="#bfdbfe" font-size="9" font-weight="700" font-family="Inter, sans-serif" letter-spacing="2">GITHUB, MASTER TRUTH</text>
-          <text x="500" y="215" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="700" font-family="Inter, sans-serif">125 Memory-Dateien</text>
-          <text x="500" y="235" text-anchor="middle" fill="#bfdbfe" font-size="10" font-family="Inter, sans-serif">jede &Auml;nderung ein Commit</text>
-          <text x="500" y="252" text-anchor="middle" fill="#bfdbfe" font-size="10" font-family="Inter, sans-serif">Skills + Regeln als Klartext</text>
+          <text x="500" y="192" text-anchor="middle" fill="#bfdbfe" font-size="9" font-weight="700" font-family="Inter, sans-serif" letter-spacing="2">DAS GED&Auml;CHTNIS &middot; GITHUB</text>
+          <text x="500" y="215" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="700" font-family="Inter, sans-serif">125 Wissens-Dateien</text>
+          <text x="500" y="235" text-anchor="middle" fill="#bfdbfe" font-size="10" font-family="Inter, sans-serif">jede &Auml;nderung wird protokolliert</text>
+          <text x="500" y="252" text-anchor="middle" fill="#bfdbfe" font-size="10" font-family="Inter, sans-serif">einfacher Text, f&uuml;r jeden lesbar</text>
         </g>
         <g>
           <rect x="710" y="170" width="250" height="96" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
-          <text x="835" y="192" text-anchor="middle" fill="#2563eb" font-size="9" font-weight="700" font-family="Inter, sans-serif" letter-spacing="2">CLAUDE CODE</text>
+          <text x="835" y="192" text-anchor="middle" fill="#2563eb" font-size="9" font-weight="700" font-family="Inter, sans-serif" letter-spacing="2">DER DENKER &middot; CLAUDE</text>
           <text x="835" y="215" text-anchor="middle" fill="#09090b" font-size="14" font-weight="700" font-family="Inter, sans-serif">Liest, denkt, schreibt</text>
-          <text x="835" y="235" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">w&auml;hlt aus 19 Skills</text>
-          <text x="835" y="252" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Modell: Opus</text>
+          <text x="835" y="235" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">w&auml;hlt aus 19 Anleitungen (Skills)</text>
+          <text x="835" y="252" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">das gro&szlig;e Claude-Modell (Opus)</text>
         </g>
         <g>
           <rect x="420" y="330" width="180" height="56" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
-          <text x="510" y="354" text-anchor="middle" fill="#09090b" font-size="12.5" font-weight="700" font-family="Inter, sans-serif">Telegram, 07:00</text>
-          <text x="510" y="372" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Brief aufs Handy</text>
+          <text x="510" y="354" text-anchor="middle" fill="#09090b" font-size="12.5" font-weight="700" font-family="Inter, sans-serif">Tagesplan, 07:00</text>
+          <text x="510" y="372" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">aufs Handy, per Telegram</text>
         </g>
         <g>
           <rect x="610" y="330" width="170" height="56" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
@@ -579,12 +580,12 @@
         </g>
         <g>
           <rect x="800" y="330" width="180" height="56" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
-          <text x="890" y="354" text-anchor="middle" fill="#09090b" font-size="12.5" font-weight="700" font-family="Inter, sans-serif">Preis-Log</text>
-          <text x="890" y="372" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">Push erst nach Klick</text>
+          <text x="890" y="354" text-anchor="middle" fill="#09090b" font-size="12.5" font-weight="700" font-family="Inter, sans-serif">Preis-Vorschlag</text>
+          <text x="890" y="372" text-anchor="middle" fill="#71717a" font-size="10" font-family="Inter, sans-serif">live erst nach meinem Klick</text>
         </g>
       </svg>
     </div>
-    <div class="diagram-foot">Batch und Live: <strong>die Crons ziehen auf Schedule in den Master Truth, Claude greift live per MCP zu.</strong> Jede &Auml;nderung versioniert, nichts verschwindet in einem Tool.</div>
+    <div class="diagram-foot">Zweierlei Tempo: <strong>der Sammler holt zur festen Uhrzeit ein, der Denker greift tags&uuml;ber live zu.</strong> Und alles, was das Brain wei&szlig;, steht in Dateien, die ich jederzeit selbst lesen kann.</div>
     <div class="brand">#BCD &middot; Erler Ventures</div>
     <div class="page-num">06</div>
   </section>
@@ -598,21 +599,21 @@
         <div class="tag">Die 31 MCP-Anschl&uuml;sse, gruppiert</div>
         <div class="name">F&uuml;nf Gruppen</div>
         <div class="col-line"><div><div class="l-head">Google Workspace</div><span class="l-sub">Gmail, Kalender, Drive, Docs, lesen + schreiben</span></div></div>
-        <div class="col-line"><div><div class="l-head">Wissen: Notion + GitHub</div><span class="l-sub">Team-Mirror und Master Truth</span></div></div>
+        <div class="col-line"><div><div class="l-head">Wissen: Notion + GitHub</div><span class="l-sub">geteilte Notizen + das Ged&auml;chtnis</span></div></div>
         <div class="col-line"><div><div class="l-head">Kommunikation: Telegram, Slack, LinkedIn</div><span class="l-sub">Briefs raus, Kontext rein</span></div></div>
-        <div class="col-line"><div><div class="l-head">Business: Hostaway, Holidu, Close CRM</div><span class="l-sub">PMS, Portale, Sales-Pipeline</span></div></div>
-        <div class="col-line"><div><div class="l-head">Browser + Web: Chrome, Computer-Use, Suche</div><span class="l-sub">bedient Portale ohne API, Research mit Quellen</span></div></div>
+        <div class="col-line"><div><div class="l-head">Business: Hostaway, Holidu, Close</div><span class="l-sub">Buchungs-Portale + Kunden-Datenbank</span></div></div>
+        <div class="col-line"><div><div class="l-head">Browser + Web: Chrome, Computer-Use, Suche</div><span class="l-sub">bedient Webseiten wie ein Mensch, mit Quellen</span></div></div>
       </div>
       <div class="col">
         <div class="tag">Welche Claude genau</div>
         <div class="name">Eine Flotte, vier Einsatzorte</div>
-        <div class="col-line"><div><div class="l-head">Claude Code, die T&uuml;r</div><span class="l-sub">Terminal + Desktop, w&auml;hlt Skills, ruft Tools. Modell: Opus</span></div></div>
+        <div class="col-line"><div><div class="l-head">Claude Code, die T&uuml;r</div><span class="l-sub">die Kommandozentrale am Rechner. Modell: Opus</span></div></div>
         <div class="col-line"><div><div class="l-head">Telegram-Bot auf dem Server</div><span class="l-sub">Claude am Handy, 24/7, l&auml;uft in Frankfurt</span></div></div>
-        <div class="col-line"><div><div class="l-head">Claude in Chrome</div><span class="l-sub">klickt Portale ohne API, z.B. Preis-Pflege im Portal</span></div></div>
-        <div class="col-line"><div><div class="l-head">AWS Bedrock f&uuml;r die Automationen</div><span class="l-sub">die Crons rufen Claude &uuml;ber AWS, Abrechnung &uuml;ber Credits</span></div></div>
+        <div class="col-line"><div><div class="l-head">Claude in Chrome</div><span class="l-sub">klickt Webseiten selbst, z.B. Preis-Pflege im Vermieter-Portal</span></div></div>
+        <div class="col-line"><div><div class="l-head">AWS Bedrock f&uuml;r die Automationen</div><span class="l-sub">die Wecker-Auftr&auml;ge rufen Claude &uuml;ber Amazons Cloud</span></div></div>
       </div>
     </div>
-    <div class="twocol-foot" style="margin-top: 0.45rem; padding-top: 0.45rem; font-size: 0.86rem;">Jeder Anschluss ist <strong>eine Konfigzeile, kein Projekt.</strong> Das Modell ist austauschbar, das Wissen liegt in den Dateien.</div>
+    <div class="twocol-foot" style="margin-top: 0.45rem; padding-top: 0.45rem; font-size: 0.86rem;">Jeder Anschluss ist <strong>ein paar Minuten Einrichtung, kein Projekt.</strong> Das Modell ist austauschbar, das Wissen liegt in den Dateien.</div>
     <div class="brand">#BCD &middot; Erler Ventures</div>
     <div class="page-num">07</div>
   </section>
