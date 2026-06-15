@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="googlebot" content="noindex, nofollow" />
+<title>Parkside Deffingen, Ertrag pro Wohnung, Investoren-Briefing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff; --text: #09090b; --muted: #71717a; --faint: #a1a1aa;
+  --accent: #2563eb; --accent-deep: #1d4ed8; --accent-soft: #eff6ff;
+  --border: #f1f5f9; --border-strong: #e2e8f0; --code-bg: #f4f4f5;
+  --red: #dc2626; --green: #16a34a;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; width: 100%; background: var(--bg); color: var(--text); font-family: var(--sans); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; font-feature-settings: 'ss01', 'cv11'; }
+.deck { width: 100vw; height: 100vh; overflow: hidden; position: relative; }
+.slide { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; display: none; padding: 11vh 11vw; flex-direction: column; justify-content: center; background: var(--bg); }
+.slide.active { display: flex; }
+.label { position: absolute; top: 6vh; left: 11vw; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 0.7rem; }
+.label::before { content: ''; width: 1.25rem; height: 1px; background: var(--accent); }
+.page-num { position: absolute; bottom: 5vh; right: 11vw; font-size: 0.68rem; font-weight: 400; color: var(--faint); letter-spacing: 0.1em; font-variant-numeric: tabular-nums; }
+.brand { position: absolute; bottom: 5vh; left: 11vw; font-size: 0.68rem; font-weight: 400; color: var(--faint); letter-spacing: 0.1em; text-transform: uppercase; }
+.cover-eyebrow { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 2.5rem; }
+h1.cover-title { font-weight: 700; font-size: clamp(2.8rem, 6.5vw, 6rem); line-height: 1.02; letter-spacing: -0.045em; color: var(--text); margin-bottom: 2.5rem; max-width: 22ch; }
+h1.cover-title .accent { color: var(--accent); }
+.cover-sub { font-size: clamp(1.05rem, 1.5vw, 1.4rem); font-weight: 400; color: var(--muted); max-width: 60ch; line-height: 1.5; margin-bottom: 3.5rem; }
+.cover-meta { font-size: 0.85rem; font-weight: 400; color: var(--text); letter-spacing: 0.01em; line-height: 1.7; }
+.cover-meta .who { font-weight: 600; display: block; }
+.cover-meta .when { color: var(--muted); }
+h2.title { font-weight: 600; font-size: clamp(2.5rem, 4.5vw, 4rem); line-height: 1.05; letter-spacing: -0.035em; color: var(--text); margin-bottom: 3.5rem; max-width: 24ch; }
+h2.title .accent { color: var(--accent); font-weight: 700; }
+.pains { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 2rem; }
+.pain { display: flex; flex-direction: column; gap: 0.5rem; padding: 1.5rem 1.4rem; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--bg); }
+.pain .pn { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red); }
+.pain .pt { font-weight: 600; font-size: 1.1rem; color: var(--text); letter-spacing: -0.01em; line-height: 1.3; }
+.pain .pd { font-size: 0.82rem; font-weight: 400; color: var(--muted); line-height: 1.5; }
+.pain-foot { font-size: 1.05rem; font-weight: 500; color: var(--text); line-height: 1.55; max-width: 80ch; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+.pain-foot .accent { color: var(--accent); font-weight: 700; }
+.case-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-bottom: 1.5rem; align-items: start; }
+.case-col { display: flex; flex-direction: column; gap: 2rem; }
+.case-stat { display: flex; flex-direction: column; gap: 0.4rem; }
+.case-stat .n { font-weight: 700; font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1; color: var(--accent); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.case-stat .lbl { font-weight: 600; font-size: 1rem; color: var(--text); letter-spacing: -0.005em; margin-top: 0.3rem; }
+.case-stat .sub { font-size: 0.82rem; color: var(--muted); line-height: 1.4; margin-top: 0.2rem; }
+.case-body { font-size: 1rem; color: var(--text); line-height: 1.65; }
+.case-body p { margin-bottom: 0.85rem; }
+.case-body strong { color: var(--accent); font-weight: 600; }
+.case-foot { font-size: 0.95rem; font-weight: 500; color: var(--muted); line-height: 1.55; padding-top: 1.25rem; border-top: 1px solid var(--border); font-style: italic; }
+.case-foot .accent { color: var(--accent); font-style: normal; font-weight: 600; }
+.l-foot, .layer-foot { font-size: 0.95rem; font-weight: 500; color: var(--text); line-height: 1.55; padding-top: 1rem; border-top: 1px solid var(--border); }
+.layer-foot strong { color: var(--accent); }
+.pull-table { width: 100%; border-collapse: collapse; }
+.pull-table th { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--text); padding: 0.6rem 0.8rem; text-align: left; }
+.pull-table th.r, .pull-table td.r { text-align: right; font-variant-numeric: tabular-nums; }
+.pull-table td { padding: 0.7rem 0.8rem; border-bottom: 1px solid var(--border-strong); font-size: 0.9rem; vertical-align: middle; line-height: 1.4; }
+.pull-table tr.sum td { font-weight: 700; border-bottom: none; border-top: 2px solid var(--text); }
+.pull-table tr.mid td { font-weight: 700; color: var(--accent); background: var(--accent-soft); }
+.pull-table .unit { font-family: var(--mono); font-weight: 600; color: var(--accent); white-space: nowrap; font-size: 0.82rem; }
+.pull-foot { margin-top: 1.25rem; padding: 0.85rem 1.1rem; background: var(--accent-soft); border-left: 3px solid var(--accent); font-size: 0.9rem; line-height: 1.5; color: var(--text); border-radius: 0 4px 4px 0; }
+.pull-foot strong { color: var(--accent); font-weight: 700; }
+.stack-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 1.5rem; }
+.sc { display: flex; flex-direction: column; gap: 0.5rem; padding: 1.6rem 1.5rem; border: 1px solid var(--border-strong); border-radius: 8px; }
+.sc.lead { border-color: var(--accent); border-width: 2px; background: var(--accent-soft); }
+.sc .sct { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.sc.lead .sct { color: var(--accent); }
+.sc .scn { font-weight: 700; font-size: 2.1rem; color: var(--text); letter-spacing: -0.03em; margin-top: 0.2rem; font-variant-numeric: tabular-nums; }
+.sc.lead .scn { color: var(--accent); }
+.sc .scd { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+.stack-foot { font-size: 1rem; font-weight: 500; color: var(--text); line-height: 1.55; padding-top: 1.25rem; border-top: 1px solid var(--border); max-width: 80ch; }
+.stack-foot .accent { color: var(--accent); font-weight: 700; }
+.moat-quote { padding: 2rem 2.2rem; border-left: 4px solid var(--accent); background: var(--accent-soft); border-radius: 0 6px 6px 0; margin-bottom: 2.5rem; }
+.moat-quote .q { font-weight: 600; font-size: clamp(1.4rem, 2.2vw, 1.9rem); color: var(--text); line-height: 1.4; letter-spacing: -0.015em; }
+.moat-proof { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+.mp { display: flex; flex-direction: column; gap: 0.35rem; padding-top: 1rem; border-top: 2px solid var(--accent); }
+.mp .mph { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+.mp .mpt { font-weight: 700; font-size: 1.6rem; color: var(--text); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.mp .mpd { font-weight: 400; font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+.nav-hint { position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%); font-size: 0.65rem; color: var(--faint); opacity: 0.5; pointer-events: none; letter-spacing: 0.06em; }
+.nav-hint.hidden { opacity: 0; transition: opacity 0.5s; }
+@media print { @page { size: 13.3in 7.5in; margin: 0; } .deck { height: auto; } .slide { display: flex !important; height: 7.5in; width: 13.3in; page-break-after: always; } .nav-hint { display: none; } }
+@media (max-width: 900px) {
+  .slide { padding: 7vh 7vw; } .label { top: 4vh; left: 7vw; } .page-num, .brand { bottom: 3vh; } .page-num { right: 7vw; } .brand { left: 7vw; }
+  .pains, .stack-cols, .moat-proof { grid-template-columns: 1fr; } .case-hero { grid-template-columns: 1fr; gap: 1.5rem; } .pull-table td, .pull-table th { font-size: 0.78rem; padding: 0.5rem 0.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 01 COVER -->
+  <section class="slide active" id="s1">
+    <div class="cover-eyebrow">Erler Ventures &middot; Parkside Deffingen &middot; Investoren-Briefing</div>
+    <h1 class="cover-title">Parkside Deffingen.<br><span class="accent">Ertrag pro Wohnung.</span></h1>
+    <p class="cover-sub">6 Ferienapartments, 8 Minuten zum Legoland. Was jede Wohnung wirklich abwirft, 2024 bis 2026, auf Basis echter Holidu-Auszahlungen und der geprueften Jahresabrechnung.</p>
+    <p class="cover-meta"><span class="who">Christoph Erler &amp; Johannes Wopfner</span><span class="when">Stand 15. Juni 2026</span></p>
+    <div class="brand">Erler Ventures &middot; Parkside Deffingen</div>
+    <div class="page-num">01 / 09</div>
+  </section>
+
+  <!-- 02 DAS OBJEKT -->
+  <section class="slide" id="s2">
+    <div class="label">Das Objekt</div>
+    <h2 class="title">Sechs Studios, eine <span class="accent">Legoland-Lage</span></h2>
+    <div class="stack-cols">
+      <div class="sc"><div class="sct">Einheiten</div><div class="scn">6</div><div class="scd">Voll moeblierte Studio-Apartments, einheitlicher Standard, gleiche Groessenklasse.</div></div>
+      <div class="sc lead"><div class="sct">Lage</div><div class="scn">8 Min</div><div class="scd">Fahrzeit zum Legoland Deutschland. Nachfragetreiber von April bis Oktober.</div></div>
+      <div class="sc"><div class="sct">Gaeste-Score</div><div class="scn">4,6</div><div class="scd">Holidu-Bewertung aus 634 Gaeste-Reviews. Stabil hoch.</div></div>
+    </div>
+    <div class="stack-foot">Vertrieb ueber Holidu, Self-Check-in, professionell betrieben. <span class="accent">Zwei volle Betriebsjahre Datenhistorie</span>, kein Modell, sondern Ist.</div>
+    <div class="brand">Erler Ventures &middot; Parkside Deffingen</div>
+    <div class="page-num">02 / 09</div>
+  </section>
+
+  <!-- 03 UMSATZ -->
+  <section class="slide" id="s3">
+    <div class="label">Umsatzentwicklung</div>
+    <h2 class="title">Zweites Jahr, <span class="accent">+16% Umsatz</span></h2>
+    <div class="case-hero">
+      <div class="case-col">
+        <div class="case-stat"><div class="n">152.666</div><div class="lbl">EUR Umsatz 2025</div><div class="sub">888 Buchungen, erstes volles Betriebsjahr</div></div>
+        <div class="case-stat"><div class="n">131.717</div><div class="lbl">EUR Umsatz 2024</div><div class="sub">670 Buchungen, Rumpfjahr ab Februar (Launch)</div></div>
+      </div>
+      <div class="case-body">
+        <p>Umsatz = <strong>echte Holidu-Netto-Auszahlung</strong> an den Eigentuemer, vor Steuer, ueber alle sechs Studios. Keine Schaetzung, sondern die ausbezahlten Betraege.</p>
+        <p>2024 war ein Rumpfjahr (Start im Februar), 2025 ist die belastbare Referenz: rund <strong>25.400 EUR je Wohnung</strong>.</p>
+        <p>2026 laeuft auf vergleichbarem Niveau, getragen von der Legoland-Saison April bis Oktober.</p>
+      </div>
+    </div>
+    <div class="case-foot">Quelle: Holidu-Performance-Auszahlungen, alle 6 Listings einzeln abgefragt. <span class="accent">Summe der Wohnungen = Gesamt, gegengeprueft.</span></div>
+    <div class="brand">Erler Ventures &middot; Parkside Deffingen</div>
+    <div class="page-num">03 / 09</div>
+  </section>
+
+  <!-- 04 ERTRAG JE WOHNUNG -->
+  <section class="slide" id="s4">
+    <div class="label">Ertrag je Wohnung, 2025</div>
+    <h2 class="title">Jede Wohnung, einzeln</h2>
+    <table class="pull-table">
+      <thead><tr><th>Wohnung</th><th class="r">Umsatz (netto)</th><th class="r">NOI</th><th class="r">Netto vor Steuer</th></tr></thead>
+      <tbody>
+        <tr><td class="unit">Studio 1</td><td class="r">26.469</td><td class="r">17.252</td><td class="r">10.047</td></tr>
+        <tr><td class="unit">Studio 2</td><td class="r">28.170</td><td class="r">19.373</td><td class="r">12.168</td></tr>
+        <tr><td class="unit">Studio 3</td><td class="r">22.438</td><td class="r">13.611</td><td class="r">6.406</td></tr>
+        <tr><td class="unit">Studio 4</td><td class="r">28.876</td><td class="r">19.719</td><td class="r">12.514</td></tr>
+        <tr><td class="unit">Studio 5</td><td class="r">26.328</td><td class="r">17.171</td><td class="r">9.966</td></tr>
+        <tr><td class="unit">Studio 6</td><td class="r">20.385</td><td class="r">12.038</td><td class="r">4.833</td></tr>
+        <tr class="sum"><td>Schnitt je Wohnung</td><td class="r">25.444</td><td class="r">16.527</td><td class="r">9.323</td></tr>
+      </tbody>
+    </table>
+    <div class="pull-foot"><strong>NOI</strong> = Ertrag vor Finanzierung und Abschreibung. Alle sechs Wohnungen liegen eng beieinander, kein Ausreisser nach unten. Spanne Netto: 4.800 bis 12.500 EUR.</div>
+    <div class="brand">Erler Ventures &middot; Parkside Deffingen</div>
+    <div class="page-num">04 / 09</div>
+  </section>
+
+  <!-- 05 WATERFALL -->
+  <section class="slide" id="s5">
+    <div class="label">Von Umsatz zu Ertrag, 2025</div>
+    <h2 class="title">Wo das Geld <span class="accent">landet</span></h2>
+    <table class="pull-table">
+      <thead><tr><th>Position</th><th class="r">Gesamt 2025</th><th class="r">je Wohnung</th></tr></thead>
+      <tbody>
+        <tr><td>Holidu-Umsatz (netto)</td><td class="r">152.666</td><td class="r">25.444</td></tr>
+        <tr><td>minus Reinigung (30 EUR je Buchung)</td><td class="r">-26.640</td><td class="r">-4.440</td></tr>
+        <tr><td>minus Gebaeude laufend (Strom, Versicherung, Verwaltung)</td><td class="r">-26.863</td><td class="r">-4.477</td></tr>
+        <tr class="mid"><td>= NOI (operativer Ertrag)</td><td class="r">99.163</td><td class="r">16.527</td></tr>
+        <tr><td>minus Finanzierung (Zinsen)</td><td class="r">-17.503</td><td class="r">-2.917</td></tr>
+        <tr><td>minus Abschreibung (AfA, nicht zahlungswirksam)</td><td class="r">-25.725</td><td class="r">-4.288</td></tr>
+        <tr class="sum"><td>= Netto vor Steuer</td><td class="r">55.935</td><td class="r">9.323</td></tr>
+      </tbody>
+    </table>
+    <div class="pull-foot"><strong>NOI-Marge 65%</strong> auf den Umsatz, Netto-Marge 37%. Die AfA ist nicht zahlungswirksam, der Cash-Ertrag liegt rund 4.300 EUR je Wohnung ueber dem Netto.</div>
+    <div class="brand">Erler Ventures &middot; Parkside Deffingen</div>
+    <div class="page-num">05 / 09</div>
+  </section>
+
+  <!-- 06 KPIS -->
+  <section class="slide" id="s6">
+    <div class="label">Betriebskennzahlen, 2026</div>
+    <h2 class="title">Wie voll, wie teuer, <span class="accent">wie lang</span></h2>
+    <div class="stack-cols">
+      <div class="sc lead"><div class="sct">Auslastung</div><div class="scn">66%</div><div class="scd">Realisiert seit Maerz 2026 ueber alle sechs Studios. Hochsaison deutlich darueber.</div></div>
+      <div class="sc"><div class="sct">ADR (Preis/Nacht)</div><div class="scn">132 EUR</div><div class="scd">Durchschnittlicher Naechtigungspreis, Einstellpreis-Basis.</div></div>
+      <div class="sc"><div class="sct">Aufenthaltsdauer</div><div class="scn">1,8 N</div><div class="scd">Kurzaufenthalte, hoher Durchlauf, typisch fuer Legoland-Familien.</div></div>
+    </div>
+    <div class="stack-foot">Gaeste-Score <span class="accent">4,6 aus 634 Bewertungen</span>. Vorausgebucht stehen aktuell rund 260 Naechte auf den Buechern (naechste 90 Tage).</div>
+    <div class="brand">Erler Ventures &middot; Parkside Deffingen</div>
+    <div class="page-num">06 / 09</div>
+  </section>
+
+  <!-- 07 SAISON -->
+  <section class="slide" id="s7">
+    <div class="label">Saisonalitaet</div>
+    <h2 class="title">Die Saison ist <span class="accent">planbar</span></h2>
+    <div class="stack-cols">
+      <div class="sc lead"><div class="sct">Hochsaison Apr-Okt</div><div class="scn">~70%</div><div class="scd">des Jahresumsatzes. Spitzenmonate Juli (21.016) und August (19.272 EUR), getragen vom Legoland.</div></div>
+      <div class="sc"><div class="sct">Schultersaison</div><div class="scn">Apr / Okt</div><div class="scd">April 18.821 und Oktober 16.808 EUR, ueberraschend stark durch Ferien und Brueckentage.</div></div>
+      <div class="sc"><div class="sct">Nebensaison Nov-Mae</div><div class="scn">~30%</div><div class="scd">Ruhiger, aber nie tot: November bis Maerz konstant 4.500 bis 9.000 EUR pro Monat.</div></div>
+    </div>
+    <div class="stack-foot">Das Muster wiederholt sich Jahr fuer Jahr. <span class="accent">Kein Ueberraschungsrisiko</span>, die Auslastung folgt dem Legoland-Kalender.</div>
+    <div class="brand">Erler Ventures &middot; Parkside Deffingen</div>
+    <div class="page-num">07 / 09</div>
+  </section>
+
+  <!-- 08 EHRLICHE SICHT -->
+  <section class="slide" id="s8">
+    <div class="label">Annahmen, ehrlich</div>
+    <h2 class="title">Was hinter den Zahlen steht</h2>
+    <div class="pains">
+      <div class="pain"><div class="pn">Hinweis 01</div><div class="pt">Nur Holidu-Kanal</div><div class="pd">Umsatz = Netto-Auszahlung nach Holidu-Provision. Weitere Kanaele kaemen oben drauf, sind hier nicht eingerechnet.</div></div>
+      <div class="pain"><div class="pn">Hinweis 02</div><div class="pt">Betrieb noch unbezahlt</div><div class="pd">Die Vor-Ort-Betreuung laeuft aktuell ohne Gehalt. Bei fairer Verguetung sinkt das Netto je Wohnung entsprechend.</div></div>
+      <div class="pain"><div class="pn">Hinweis 03</div><div class="pt">Gebaeudekosten 2024</div><div class="pd">Aus der geprueften GbR-Abrechnung 2024 (Koch &amp; Kollegen), fuer 2025 als Naeherung uebernommen. Einmalige Steuereffekte herausgerechnet.</div></div>
+    </div>
+    <div class="pain-foot">Die Zahlen sind <span class="accent">bewusst konservativ</span> und auf echtem Ist gebaut, nicht auf Best-Case-Modellen.</div>
+    <div class="brand">Erler Ventures &middot; Parkside Deffingen</div>
+    <div class="page-num">08 / 09</div>
+  </section>
+
+  <!-- 09 KERNAUSSAGE -->
+  <section class="slide" id="s9">
+    <div class="label">Kernaussage</div>
+    <h2 class="title">Womit zu rechnen ist</h2>
+    <div class="moat-quote">
+      <div class="q">Jede Wohnung wirft 2025 rund 16.500 EUR operativen Ertrag ab, nach allen Kosten inklusive Finanzierung und Abschreibung rund 9.300 EUR vor Steuer.</div>
+    </div>
+    <div class="moat-proof">
+      <div class="mp"><div class="mph">NOI-Marge</div><div class="mpt">65%</div><div class="mpd">auf den Umsatz, vor Finanzierung und AfA.</div></div>
+      <div class="mp"><div class="mph">Auslastung</div><div class="mpt">66%</div><div class="mpd">ueber alle Studios, Hochsaison deutlich hoeher.</div></div>
+      <div class="mp"><div class="mph">Gaeste-Score</div><div class="mpt">4,6</div><div class="mpd">aus 634 Bewertungen, stabil ueber zwei Jahre.</div></div>
+    </div>
+    <div class="brand">Erler Ventures &middot; Parkside Deffingen</div>
+    <div class="page-num">09 / 09</div>
+  </section>
+
+</div>
+
+<div class="nav-hint">Pfeiltasten zum Blaettern</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let current = 0;
+  function go(idx) {
+    if (idx < 0 || idx >= slides.length) return;
+    slides[current].classList.remove('active');
+    slides[idx].classList.add('active');
+    current = idx;
+    history.replaceState({}, '', '#' + (idx + 1));
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); go(current + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(current - 1); }
+    if (e.key === 'Home') go(0);
+    if (e.key === 'End') go(slides.length - 1);
+    document.querySelector('.nav-hint').classList.add('hidden');
+  });
+  document.querySelector('.deck').addEventListener('click', (e) => {
+    const x = e.clientX; const w = window.innerWidth;
+    if (x > w / 2) go(current + 1); else go(current - 1);
+  });
+  if (window.location.hash) {
+    const n = parseInt(window.location.hash.replace('#', ''));
+    if (n >= 1 && n <= slides.length) go(n - 1);
+  }
+  setTimeout(() => document.querySelector('.nav-hint').classList.add('hidden'), 5000);
+</script>
+</body>
+</html>
